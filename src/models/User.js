@@ -11,9 +11,7 @@ const userSchema = new mongoose.Schema({
 
 // 이 미들웨어에서 this는 create되는 user를 가리킨다.
 userSchema.pre("save", async function () {
-  console.log(this.password);
   this.password = await bcrypt.hash(this.password, 5);
-  console.log(this.password);
   // 비밀번호를 bcrypt 모듈을 이용해 해싱하는 과정.
   // 비밀번호가 그대로 db에 저장되면 db가 해킹당했을때 비밀번호가 그대로 노출되기때문에
   // 해싱을 해줘서(암호화) 해싱된 값을 저장한다. hash()의 두번째 인자는 해싱하는 횟수
