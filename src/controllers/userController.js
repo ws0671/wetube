@@ -6,14 +6,18 @@ export const postJoin = async (req, res) => {
   const pageTitle = "Join";
 
   if (password !== password2) {
-    return res.render("join", {
+    return res.status(400).render("join", {
       pageTitle,
       errorMessage: "Password confirmation does not match.",
     });
+    // 브라우저가 적절한 행동을 취하게 하기위해 400(bad request)상태코드를 보낸다.
+    // 저렇게 따로 보내지않으면, 200(sucess 상태코드)으로 판단하여 브라우저에서
+    // 우측 상단에 비밀번호를 저장하나요?라고 팝업이 뜬다. 계정 생성이 성공한 줄로 오해하는 것이다.
+    // 즉, 브라우저는 상태코드를 보고 판단한다.
   }
-  const exists = User.exists({ $or: [{ username }, { email }] });
+  const exists = await User.exists({ $or: [{ username }, { email }] });
   if (exists) {
-    return res.render("join", {
+    return res.status(400).render("join", {
       pageTitle,
       errorMessage: "This username/email is already taken.",
     });
