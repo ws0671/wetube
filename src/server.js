@@ -4,6 +4,7 @@ import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import session from "express-session";
+import { localsMiddleware } from "./middlewares";
 
 const app = express();
 const logger = morgan("dev");
@@ -11,7 +12,6 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
-// session 미들웨어는 반드시 router앞에서 초기화한다.
 app.use(
   session({
     secret: "hello",
@@ -19,13 +19,8 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use((req, res, next) => {
-  req.sessionStore.all((error, sessions) => {
-    console.log(sessions);
-    next();
-  });
-});
-
+//이 미들웨어는 반드시 session이 생성된후 실행하도록 세션 미들웨어 뒤에 배치한다.
+app.use(localsMiddleware);
 //router
 app.use("/", rootRouter);
 app.use("/users", userRouter);
