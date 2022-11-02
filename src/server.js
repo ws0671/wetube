@@ -17,8 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "hello",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     store: MongoStore.create({ client: connection.client }),
   })
 );
