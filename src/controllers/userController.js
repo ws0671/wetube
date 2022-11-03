@@ -105,7 +105,6 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(userData);
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -113,12 +112,32 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(emailData);
-    const email = emailData.find(
+    const emailObj = emailData.find(
       (email) => email.primary === true && email.verified === true
     );
-    if (!email) {
+    if (!emailObj) {
       return res.redirect("/login");
+    }
+    const existingUser = await User.findOne({ email: emailObj.email });
+    // 1. 깃헙 email과 이 사이트에 이미 가입된 회원의 email이 같으면 바로 로그인을 시켜준다.
+    if (existingUser) {
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    } else {
+      // 2. 다를경우, 회원을 새로 만들되 비밀번호가 없는 회원을 만든다. 그리고 socialOnly를 true로 줘서
+      // social 로그인을 했다는 것을 표시해준다. 즉, 소셜 로그인을 하면 비밀번호가 필요없게 설계를 한다.
+      const user = await User.create({
+        name: userData.name,
+        username: userData.login,
+        email: emailObj.email,
+        password: "",
+        socialOnly: true,
+        location: userData.location,
+      });
+      req.session.loggedIn = true;
+      req.session.user = user;
+      return res.redirect("/");
     }
   } else {
     return res.redirect("/login");
