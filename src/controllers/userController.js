@@ -180,9 +180,40 @@ export const getChangePassword = (req, res) => {
     pageTitle: "Change Password",
   });
 };
-export const postChangePassword = (req, res) => {
-  // send notification
-  return res.redirect("/");
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { oldPassword, newPassword, newPasswordConfirmation },
+  } = req;
+
+  const user = await User.findById(_id);
+  const ok = await bcrypt.compare(oldPassword, user.password);
+  if (!ok) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "The current password is incorrect",
+    });
+  }
+  if (oldPassword === newPassword) {
+    return res.status(400).render("users/change-password", {
+      pageTitle,
+      errorMessage: "The old password equals new password",
+    });
+  }
+  if (newPassword !== newPasswordConfirmation) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "The password does not match the confirmation",
+    });
+  }
+  //db의 패스워드 변경
+  user.password = newPassword;
+  // user.save를 하면 pre middleware가 작동하여 새로운 비밀번호가 자동으로 해쉬화된다.
+  await user.save();
+  req.session.destroy();
+  return res.redirect("/users/logout");
 };
 
 export const see = (req, res) => res.send("See User");
