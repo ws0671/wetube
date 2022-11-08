@@ -150,7 +150,10 @@ export const postEdit = async (req, res) => {
       user: { _id },
     },
     body: { name, email, username, location },
+    // req.file은 multer 미들웨어를 사용했을때만 쓸 수 있다.
+    file,
   } = req;
+  console.log(file);
   const sessionEmail = req.session.user.email;
   const sessionUsername = req.session.user.username;
 
