@@ -151,13 +151,38 @@ export const postEdit = async (req, res) => {
     },
     body: { name, email, username, location },
   } = req;
-  await User.findByIdAndUpdate(_id, {
-    name,
-    email,
-    username,
-    location,
+  const sessionEmail = req.session.user.email;
+  const sessionUsername = req.session.user.username;
+
+  if (sessionEmail !== email && sessionUsername !== username) {
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        name,
+        email,
+        username,
+        location,
+      },
+      { new: true }
+    );
+    req.session.user = updatedUser;
+    return res.redirect("/users/edit");
+  }
+  return res.render("edit-profile", {
+    pageTitle: "Edit Profile",
+    errorMessage: "email/username already exist.",
   });
-  return res.render("edit-profile");
 };
-export const remove = (req, res) => res.send("Remove User");
+export const getChangePassword = (req, res) => {
+  // 소셜 로그인 유저면 비밀번호 변경 못하도록함.
+  if (req.session.user.socialOnly) return res.redirect("/");
+  return res.render("users/change-password", {
+    pageTitle: "Change Password",
+  });
+};
+export const postChangePassword = (req, res) => {
+  // send notification
+  return res.redirect("/");
+};
+
 export const see = (req, res) => res.send("See User");
