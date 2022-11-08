@@ -22,9 +22,9 @@ app.use(
     store: MongoStore.create({ client: connection.client }),
   })
 );
-//이 미들웨어는 반드시 session이 생성된후 실행하도록 세션 미들웨어 뒤에 배치한다.
 app.use(localsMiddleware);
-//router
+//express.static은 폴더를 불러온다. 인자로 폴더 이름을 넘기면 된다.
+app.use("/uploads", express.static("uploads"));
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
