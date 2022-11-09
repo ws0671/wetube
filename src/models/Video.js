@@ -10,6 +10,9 @@ const videoSchema = new mongoose.Schema({
     views: { type: Number, default: 0, required: true },
     rating: { type: Number, default: 0, required: true },
   },
+  // 여기서 속성 ref는 이 ObjectId가 model User에서 온다고 알려준다. 이렇게 써줘야
+  // mongoose가 우리를 도와줄 수 있다.
+  owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
 });
 // 아래에 나온 미들웨어를 사용하는 방식은 update할때는 update에 대한 미들웨어가 없기 때문에 다른 방법으로 hashtags의 로직을 깔끔하게 하면 좋을 것 같다.
 // 이 파일에 function을 만든뒤 export하여 사용한다.=> 좋은 방법이지만 더 좋은 방법이있다.
