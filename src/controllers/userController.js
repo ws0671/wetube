@@ -222,10 +222,10 @@ export const postChangePassword = async (req, res) => {
 
 export const see = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id);
+  // populate로 relationship을 만들어주면, DB의 videos 콜렉션 정보가 user에 모두 들어오게된다.
+  // 이것을 이용하여 profile.pug 템플릿에서 user.videos경로로 접근하여 렌더링할 수 있다.
+  const user = await User.findById(id).populate("videos");
   if (!user)
     return res.status(404).render("404", { pageTitle: "User not found." });
-  // 유저 id와 일치하는 모든 비디오 찾기
-  const videos = await Video.find({ owner: user._id });
-  return res.render("users/profile", { pageTitle: user.name, user, videos });
+  return res.render("users/profile", { pageTitle: user.name, user });
 };

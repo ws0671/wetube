@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   name: { type: String, required: true },
   location: String,
+  // userSchema에 videos를 추가해준다.
+  videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
 });
 
 // 이 미들웨어에서 this는 create되는 user를 가리킨다.

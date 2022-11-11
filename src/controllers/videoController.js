@@ -45,20 +45,21 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
-  // 세션에서 id를 찾은 뒤 model video를 create할때 사용한다.
-  // 그러면 현재 로그인한 유저의 id가 들어간다.
-  // 결과적으로 만들어진 비디오에 현재 유저의 id가 기록된다.
   const { user: _id } = req.session;
   const { title, description, hashtags } = req.body;
   const { path: fileUrl } = req.file;
   try {
-    await Video.create({
+    const newVideo = await Video.create({
       title,
       owner: _id,
       fileUrl,
       description,
       hashtags: Video.formatHashtags(hashtags),
     });
+    // video를 생성한 뒤 생성한 비디오의 id를 user.video에 넣고 save()해준다.
+    const user = await User.findById(_id);
+    user.videos.push(newVideo._id);
+    user.save();
     return res.redirect("/");
   } catch (error) {
     return res.status(400).render("upload", {
