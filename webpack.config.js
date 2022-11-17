@@ -6,9 +6,13 @@ module.exports = {
     // 파일 경로 재설정
     filename: "js/main.js",
     path: path.resolve(__dirname, "assets"),
+    // 폴더를 빌드할때 이전에 있던 폴더들을 싹 없애주는 옵션.
+    clean: true,
   },
   mode: "development",
-  // plugins로 MinicssExtractPlugin 파일 경로 설정
+  // 계속 변화를 감시하도록 하는 옵션. 더 이상 수동으로 assets파일을 만들지 않아도된다.
+  // 자동화 시켜줌. 다만 output 파일들만 watch하기 떄문에 폴더의 변화는 감지 못함. 재시작해야됨.
+  watch: true,
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/styles.css",
