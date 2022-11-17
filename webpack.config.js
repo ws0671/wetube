@@ -1,15 +1,19 @@
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 module.exports = {
   entry: "./src/client/js/main.js",
   output: {
-    filename: "main.js",
-    //path.resolve()는 인자들을 합쳐서 반환해준다. 경로들을 합쳐주는 역할이다.
-    path: path.resolve(__dirname, "assets", "js"),
+    // 파일 경로 재설정
+    filename: "js/main.js",
+    path: path.resolve(__dirname, "assets"),
   },
-  // mode는 development모드와 production모드가 있는데
-  // 개발모드로 할경우 코드가 우리가 읽기 쉽게 변형되고
-  // production모드는 배포하는 코드라 코드가 압축되어 효율성있게 변형된다.
   mode: "development",
+  // plugins로 MinicssExtractPlugin 파일 경로 설정
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "css/styles.css",
+    }),
+  ],
   module: {
     rules: [
       {
@@ -28,11 +32,10 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        // 이 코드는 역순으로 loader를 실행시킨다. sass-loader->css-loader->style-loader 순으로 실행.
-        // 1. sass-loader가 scss확장자 파일을 css파일로 변환시킨다.
-        // 2. css-loader가 @import, url()등의 최신 css코드를 브라우저가 이해할 수 있는 코드로 변환시킨다.
-        // 3. style-loader가 위 과정으로 변환시킨 css코드를 DOM 내부에 적용시킨다.
-        use: ["style-loader", "css-loader", "sass-loader"],
+        //style-loader를 사용하면 js코드가 css파일을 읽는데,
+        // 우리는 css파일 따로, js파일 따로 번들화 시키고싶다. 합쳐서 할 경우
+        // js로딩을 기다려야하기 때문이다. 그래서 MiniCssExractPlugin.loader를 사용한다.
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
