@@ -87,7 +87,22 @@ export const postUpload = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
+  // deleteVideo도 동일하게 코드를 짜준다.
+  const video = await Video.findById(id);
+  const user = await User.findById(_id);
+  if (!video) {
+    return res.status(404).render("404", { pageTitle: "Video not found." });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
   await Video.findByIdAndDelete(id);
+  //user에 저장된 videos도 지워주는 로직
+  user.videos.splice(user.videos.indexOf(_id), 1);
+  user.save();
   return res.redirect("/");
 };
 

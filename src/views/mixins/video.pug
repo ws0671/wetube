@@ -1,6 +1,8 @@
 mixin video(video)
     div 
         h4
+            //video.id는 objectId를 제외한 id만 나오고 _id는 objectId를 포함하여 나온다.
+            //video.id라고하든 video._id라고하든 정상적으로 링크가 작동한다.
             a(href=`/videos/${video.id}`)=video.title
         p=video.description
         ul 
