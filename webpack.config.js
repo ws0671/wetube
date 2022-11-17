@@ -26,6 +26,14 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.scss$/,
+        // 이 코드는 역순으로 loader를 실행시킨다. sass-loader->css-loader->style-loader 순으로 실행.
+        // 1. sass-loader가 scss확장자 파일을 css파일로 변환시킨다.
+        // 2. css-loader가 @import, url()등의 최신 css코드를 브라우저가 이해할 수 있는 코드로 변환시킨다.
+        // 3. style-loader가 위 과정으로 변환시킨 css코드를 DOM 내부에 적용시킨다.
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
     ],
   },
 };
