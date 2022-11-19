@@ -5,6 +5,7 @@ const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumn = document.getElementById("volumn");
 const volumeRange = document.getElementById("volume");
+const timeline = document.getElementById("timeline");
 
 let volumeValue = 0.5;
 video.volume = volumeValue;
@@ -50,18 +51,23 @@ const formatTime = (seconds) =>
 
 const handleLoadedMetadata = () => {
   totalTime.innerText = formatTime(Math.floor(video.duration));
+  timeline.max = Math.floor(video.duration);
 };
 
 const handleTimeUpdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
+  timeline.value = Math.floor(video.currentTime);
+};
+const handleTimelineChange = (event) => {
+  const {
+    target: { value },
+  } = event;
+  video.currentTime = value;
 };
 
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
-// meta data가 로드될 때 실행된다. 여기서 meta data는 비디오를 제외한 정보를 말한다.
-// 비디오의 크기, 비디오의 길이
-// 즉, 비디오에서 움직이는 이미지들을 제외한 모든 엑스트라 정보들을 말한다.
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
-// 시간이 업데이트 될때마다 실행되는 이벤트
 video.addEventListener("timeupdate", handleTimeUpdate);
+timeline.addEventListener("input", handleTimelineChange);
