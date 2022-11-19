@@ -41,13 +41,19 @@ const handleVolumeChange = (event) => {
   volumeValue = value;
   video.volume = value;
 };
+const formatTime = (seconds) =>
+  // new Date()에 숫자를 넣으면 1970년 부터 얼마만큼의 밀리초가 지났는지 결과로 나온다.
+  // 출력해보면 한국 표준시로 9시부터 + 인자로 넣은 밀리초 만큼 지난 값이 출력된다.
+  // 그래서 new.Date(x).toISOString()을 해주면 0시부터 + 인자 만큼 지난 값이 출력된다.
+  // 이러한 성질을 이용해 숫자 포맷을 가져올 수 있다.
+  new Date(seconds * 1000).toISOString().substring(11, 19);
+
 const handleLoadedMetadata = () => {
-  //duration 속성은 video의 총 시간을 초단위로 가져온다.
-  totalTime.innerText = Math.floor(video.duration);
+  totalTime.innerText = formatTime(Math.floor(video.duration));
 };
 
 const handleTimeUpdate = () => {
-  currentTime.innerText = Math.floor(video.currentTime);
+  currentTime.innerText = formatTime(Math.floor(video.currentTime));
 };
 
 playBtn.addEventListener("click", handlePlayClick);
