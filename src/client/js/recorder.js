@@ -10,19 +10,43 @@ const handleDownload = async () => {
   const ffmpeg = createFFmpeg({ log: true });
   await ffmpeg.load();
   ffmpeg.FS("writeFile", "recording.webm", await fetchFile(videoFile));
-  // webm파일을 output.mp4로 변형시킨다.
   await ffmpeg.run("-i", "recording.webm", "-r", "60", "output.mp4");
-  // 브라우저 메모리에 저장된 output.mp4를 읽는다.
+  // webm파일을 jpg파일로 변환시킨다. 00:00:01초에서 1장의 스크린샷을 찍는다는 의미로 보면된다.
+  await ffmpeg.run(
+    "-i",
+    "recording.webm",
+    "-ss",
+    "00:00:01",
+    "-frames:v",
+    "1",
+    "thumbnail.jpg"
+  );
   const mp4File = ffmpeg.FS("readFile", "output.mp4");
+  const thumbFile = ffmpeg.FS("readFile", thumbnail.jpg);
   const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
+  const thumbBlob = new Blob([thumbFile.buffer], { type: "image/jpg" });
   const mp4Url = URL.createObjectURL(mp4Blob);
+  const thumbUrl = URL.createObjectURL(thumbBlob);
 
   const a = document.createElement("a");
-  // a태그 경로에 매직url(mp4Url)을 연결시킨다.
   a.href = mp4Url;
   a.download = "MyRecording.mp4";
   document.body.appendChild(a);
   a.click();
+
+  const thumbA = document.createElement("a");
+  thumbA.href = mp4Url;
+  thumbA.download = "MyThumbnail.jpg";
+  document.body.appendChild(thumbA);
+  thumbA.click();
+
+  ffmpeg.FS("unlink", "recording.webm");
+  ffmpeg.FS("unlink", "output.mp4");
+  ffmpeg.FS("unlink", "thumbnail.jpg");
+
+  URL.revokeObjectURL(mp4Url);
+  URL.revokeObjectURL(thumbUrl);
+  URL.revokeObjectURL(videoFile);
 };
 const handleStop = () => {
   startBtn.innerText = "Download Recording";
