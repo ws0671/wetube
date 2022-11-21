@@ -1,13 +1,37 @@
 const startBtn = document.getElementById("startBtn");
 const video = document.getElementById("preview");
-const handleStart = async () => {
-  const stream = await navigator.mediaDevices.getUserMedia({
+
+let stream;
+const handleStop = () => {
+  startBtn.innerText = "Start Recording";
+  startBtn.removeEventListener("click", handleStop);
+  startBtn.addEventListener("click", handleStart);
+};
+const handleStart = () => {
+  startBtn.innerText = "Stop Recording";
+  startBtn.removeEventListener("click", handleStart);
+  startBtn.addEventListener("click", handleStop);
+  const recorder = new MediaRecorder(stream);
+  // ondataavailable은 MediaRecorder.stop()이 실행될 때 발생하는 이벤트이다.
+  recorder.ondataavailable = (e) => {
+    console.log("recording done");
+    console.log(e);
+    console.log(e.data);
+  };
+  console.log(recorder);
+  recorder.start();
+  console.log(recorder);
+  setTimeout(() => {
+    recorder.stop();
+  }, 10000);
+};
+const init = async () => {
+  stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
     video: true,
   });
-  // srcObject속성은 HTMLMediaElement와 연결된 미디어의 소스 역할을 하는 객체를 설정하거나
-  // 반환한다.
   video.srcObject = stream;
   video.play();
 };
+init();
 startBtn.addEventListener("click", handleStart);
