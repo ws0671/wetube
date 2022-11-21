@@ -108,7 +108,6 @@ const handleMouseLeave = () => {
 };
 
 const handleKey = (event) => {
-  console.log(event.code);
   if (event.code === "Space") {
     if (video.paused) {
       video.play();
@@ -127,6 +126,7 @@ const handleKey = (event) => {
   }
   playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
+
 const handleContainerClick = () => {
   if (video.paused) {
     video.play();
@@ -137,11 +137,21 @@ const handleContainerClick = () => {
   playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
 
+// 프론트엔드에서 백엔드로 요청 보내기
+// id는 태그에 담긴 dataset을 불러온다.
+const handleEnded = () => {
+  const { id } = videoContainer.dataset;
+  fetch(`/api/videos/${id}/view`, {
+    method: "POST",
+  });
+};
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
+// ended 이벤트는 HtmlMediaElement의 이벤트로써 여기서는 video가 재생완료 된 시점에 발생한다.
+video.addEventListener("ended", handleEnded);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullscreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
