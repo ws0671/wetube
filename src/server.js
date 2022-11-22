@@ -5,6 +5,7 @@ import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import apiRouter from "./routers/apiRouter";
 import session from "express-session";
+import flash from "express-flash";
 import { localsMiddleware } from "./middlewares";
 import { connection } from "mongoose";
 import MongoStore from "connect-mongo";
@@ -29,6 +30,7 @@ app.use(
     store: MongoStore.create({ client: connection.client }),
   })
 );
+app.use(flash());
 app.use(localsMiddleware);
 // 일반적으로 폴더들은 공개되지않는데 static을 사용하면 공개되게 할 수 있다.
 // 앞에 인자는 공개될 경로를 나타낸다

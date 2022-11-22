@@ -139,7 +139,11 @@ export const finishGithubLogin = async (req, res) => {
   }
 };
 export const logout = (req, res) => {
-  req.session.destroy();
+  // req.session.destroy();
+  req.session.user = "";
+  req.session.loggedIn = false;
+  req.flash("info", "Bye Bye");
+
   return res.redirect("/");
 };
 export const getEdit = (req, res) => {
@@ -179,7 +183,10 @@ export const postEdit = async (req, res) => {
 };
 export const getChangePassword = (req, res) => {
   // 소셜 로그인 유저면 비밀번호 변경 못하도록함.
-  if (req.session.user.socialOnly) return res.redirect("/");
+  if (req.session.user.socialOnly) {
+    req.flash("error", "Can't change password.");
+    return res.redirect("/");
+  }
   return res.render("users/change-password", {
     pageTitle: "Change Password",
   });
@@ -216,7 +223,8 @@ export const postChangePassword = async (req, res) => {
   user.password = newPassword;
   // user.save를 하면 pre middleware가 작동하여 새로운 비밀번호가 자동으로 해쉬화된다.
   await user.save();
-  req.session.destroy();
+  req.flash("info", "Password updated");
+  // req.session.destroy();
   return res.redirect("/users/logout");
 };
 

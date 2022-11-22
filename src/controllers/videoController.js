@@ -31,6 +31,7 @@ export const getEdit = async (req, res) => {
   // 403에러는 forbidden이다. 비디오 작성자와 로그인한 사람의 id를 비교하여 다르면 edit에
   // 접근할 수 없도록한다.
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "Not authorized");
     return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Edit: ${video.title}`, video });
@@ -48,6 +49,7 @@ export const postEdit = async (req, res) => {
   }
   // 마찬가지로 postEdit에도 동일하게 보안처리를 해준다.
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "You are not the owner of the video");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
@@ -55,6 +57,7 @@ export const postEdit = async (req, res) => {
     description,
     hashtags: Video.formatHashtags(hashtags),
   });
+  req.flash("success", "Change saved.");
   return res.redirect(`/videos/${id}`);
 };
 
@@ -65,12 +68,15 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
   const { user: _id } = req.session;
   const { title, description, hashtags } = req.body;
-  const { path: fileUrl } = req.file;
+  const { video, thumb } = req.files;
   try {
     const newVideo = await Video.create({
       title,
       owner: _id,
-      fileUrl,
+      fileUrl: video[0].path,
+      // 일반 저장하면 경로가 백슬래쉬로 구분되어 저장이된다. 따라서 정규식을 이용해
+      // 백슬래쉬를 -> 슬래쉬로 바꾸어주고 저장한다.
+      thumbUrl: thumb[0].path.replace(/[\\]/g, "/"),
       description,
       hashtags: Video.formatHashtags(hashtags),
     });

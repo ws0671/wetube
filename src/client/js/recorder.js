@@ -9,7 +9,7 @@ let videoFile;
 const files = {
   input: "recording.webm",
   output: "output.mp4",
-  thumb: files.thumb,
+  thumb: "thumbnail.jpg",
 };
 const downloadFile = (fileUrl, fileName) => {
   const a = document.createElement("a");
@@ -39,7 +39,7 @@ const handleDownload = async () => {
     files.thumb
   );
   const mp4File = ffmpeg.FS("readFile", files.output);
-  const thumbFile = ffmpeg.FS("readFile", thumbnail.jpg);
+  const thumbFile = ffmpeg.FS("readFile", files.thumb);
   const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
   const thumbBlob = new Blob([thumbFile.buffer], { type: "image/jpg" });
   const mp4Url = URL.createObjectURL(mp4Blob);
@@ -62,16 +62,11 @@ const handleDownload = async () => {
   actionBtn.innerText = "Record Again";
   actionBtn.addEventListener("click", handleStart);
 };
-const handleStop = () => {
-  actionBtn.innerText = "Download Recording";
-  actionBtn.removeEventListener("click", handleStop);
-  actionBtn.addEventListener("click", handleDownload);
-  recorder.stop();
-};
+
 const handleStart = () => {
-  actionBtn.innerText = "Stop Recording";
+  actionBtn.innerText = "Recording";
+  actionBtn.disabled = true;
   actionBtn.removeEventListener("click", handleStart);
-  actionBtn.addEventListener("click", handleStop);
   recorder = new MediaRecorder(stream);
   // ondataavailable은 MediaRecorder.stop()이 실행될 때 발생하는 이벤트이다.
   recorder.ondataavailable = (event) => {
@@ -80,13 +75,22 @@ const handleStart = () => {
     video.src = videoFile;
     video.loop = true;
     video.play();
+    actionBtn.innerText = "Download";
+    actionBtn.disabled = false;
+    actionBtn.addEventListener("click", handleDownload);
   };
   recorder.start();
+  setTimeout(() => {
+    recorder.stop();
+  }, 5000);
 };
 const init = async () => {
   stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
-    video: true,
+    video: {
+      width: 1024,
+      height: 576,
+    },
   });
   video.srcObject = stream;
   video.play();
