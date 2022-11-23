@@ -22,6 +22,8 @@ app.use((req, res, next) => {
 });
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+// fetch를 사용한 서버 통신을 할때 json 데이터를 읽기 위해 필요한 미들웨어.
+app.use(express.json());
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,

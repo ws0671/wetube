@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   name: { type: String, required: true },
   location: String,
-  // userSchema에 videos를 추가해준다.
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
 });
 
