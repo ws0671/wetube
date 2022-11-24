@@ -70,15 +70,19 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
   const { user: _id } = req.session;
   const { title, description, hashtags } = req.body;
+  const isHeroku = process.env.NODE_ENV === "production";
+
   const { video, thumb } = req.files;
   try {
     const newVideo = await Video.create({
       title,
       owner: _id,
-      fileUrl: video[0].path,
+      fileUrl: isHeroku ? video[0].location : video[0].path,
       // 일반 저장하면 경로가 백슬래쉬로 구분되어 저장이된다. 따라서 정규식을 이용해
       // 백슬래쉬를 -> 슬래쉬로 바꾸어주고 저장한다.
-      thumbUrl: thumb[0].path.replace(/[\\]/g, "/"),
+      thumbUrl: isHeroku
+        ? thumb[0].location.replace(/[\\]/g, "/")
+        : thumb[0].path,
       description,
       hashtags: Video.formatHashtags(hashtags),
     });
