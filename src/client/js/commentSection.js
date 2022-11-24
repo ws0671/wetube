@@ -3,6 +3,10 @@ const { async } = require("regenerator-runtime");
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 
+// fake comment를 만드는 fn으로, 만약 새로고침을 하면 fake comment가 사라진다.
+// 그리고 pug에서 렌더링을 해주기때문에
+// fake comment -> 새로고침 -> fake comment 사라짐 -> pug에서 db데이터 렌더링
+// 이런순으로 동작하기때문에 실시간으로 댓글이 작성되는 것 처럼 보여진다.
 const addComment = (text, id) => {
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
