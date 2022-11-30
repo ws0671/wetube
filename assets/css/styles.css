@@ -286,10 +286,30 @@ input[type=submit] :disabled,
   color: azure;
 }
 
+@keyframes middle-animation {
+  from {
+    opacity: 0.5;
+    transform: scale(3);
+  }
+  to {
+    opacity: 0;
+    transform: scale(6);
+  }
+}
 #videoContainer {
   width: 85%;
   margin: 0 auto;
   position: relative;
+}
+#videoContainer .middle-animation-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+#videoContainer .middle-animation-icon.showing {
+  animation: middle-animation 0.75s ease-in-out;
 }
 #videoContainer video {
   width: 100%;

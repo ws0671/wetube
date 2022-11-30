@@ -1,3 +1,5 @@
+import { async } from "regenerator-runtime";
+
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const playBtnIcon = playBtn.querySelector("i");
@@ -14,12 +16,15 @@ const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
 const deleteBtn = document.querySelector(".delete-button");
 const deleteModal = document.querySelector(".delete-modal");
-const CancleBtn = document.querySelector(".button--grey");
-const ConfirmBtn = document.querySelector(".button--red");
+const cancleBtn = document.querySelector(".button--grey");
+const commentArea = document.getElementById("comment-area");
+const middleAnimationSpan = document.querySelector(".middle-animation-icon");
+const middleAnimationIcon = middleAnimationSpan.querySelector("i");
 
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
+let middleAnimationClearTimeoutId = null;
 video.volume = volumeValue;
 
 const handlePlayClick = (e) => {
@@ -112,7 +117,13 @@ const handleMouseLeave = () => {
 };
 
 const handleKey = (event) => {
+  // 댓글쓸때 keydown 이벤트 해제하기
+  if (event.target.id === commentArea.id) return;
   if (event.code === "Space") {
+    event.preventDefault();
+    middleAnimationSpan.classList.remove("showing");
+    void middleAnimationSpan.offsetWidth;
+    middleAnimationSpan.classList.add("showing");
     if (video.paused) {
       video.play();
     } else {
@@ -128,10 +139,14 @@ const handleKey = (event) => {
       fullScreenIcon.classList = "fas fa-compress";
     }
   }
+
   playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
+  middleAnimationIcon.classList = video.paused
+    ? "fa-solid fa-circle-pause"
+    : "fa-solid fa-circle-play";
 };
 
-const handleContainerClick = () => {
+const handleVideoClick = (e) => {
   if (video.paused) {
     video.play();
   } else {
@@ -139,6 +154,9 @@ const handleContainerClick = () => {
   }
 
   playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
+  middleAnimationIcon.classList = video.paused
+    ? "fa-solid fa-circle-pause"
+    : "fa-solid fa-circle-play";
 };
 
 // 프론트엔드에서 백엔드로 요청 보내기
@@ -153,6 +171,7 @@ const handleEnded = () => {
 const handleModal = (e) => {
   deleteModal.classList.remove("hide");
 };
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
@@ -165,10 +184,10 @@ fullScreenBtn.addEventListener("click", handleFullscreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 window.addEventListener("keydown", handleKey);
-videoContainer.addEventListener("click", handleContainerClick);
+video.addEventListener("click", handleVideoClick);
 
 // Modal event
 deleteBtn.addEventListener("click", handleModal);
-CancleBtn.addEventListener("click", () => {
+cancleBtn.addEventListener("click", () => {
   deleteModal.classList.add("hide");
 });
