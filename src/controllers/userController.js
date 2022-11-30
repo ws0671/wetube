@@ -161,25 +161,30 @@ export const postEdit = async (req, res) => {
   const sessionEmail = req.session.user.email;
   const sessionUsername = req.session.user.username;
   const isHeroku = process.env.NODE_ENV === "production";
-  if (sessionEmail !== email && sessionUsername !== username) {
-    const updatedUser = await User.findByIdAndUpdate(
-      _id,
-      {
-        avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
-        name,
-        email,
-        username,
-        location,
-      },
-      { new: true }
-    );
-    req.session.user = updatedUser;
-    return res.redirect("/users/edit");
-  }
-  return res.render("edit-profile", {
-    pageTitle: "Edit Profile",
-    errorMessage: "email/username already exist.",
-  });
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      avatarUrl: file
+        ? isHeroku
+          ? file.location
+          : `/${file.path}`
+        : avatarUrl,
+      name,
+      email,
+      username,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = updatedUser;
+  return res.redirect(`/users/${_id}`);
+  // if (sessionEmail !== email && sessionUsername !== username) {
+
+  // }
+  // return res.render("edit-profile", {
+  //   pageTitle: "Edit Profile",
+  //   errorMessage: "email/username already exist.",
+  // });
 };
 export const getChangePassword = (req, res) => {
   // 소셜 로그인 유저면 비밀번호 변경 못하도록함.
