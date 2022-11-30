@@ -12,6 +12,10 @@ const fullScreenBtn = document.getElementById("fullScreen");
 const fullScreenIcon = fullScreenBtn.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
+const deleteBtn = document.querySelector(".delete-button");
+const deleteModal = document.querySelector(".delete-modal");
+const CancleBtn = document.querySelector(".button--grey");
+const ConfirmBtn = document.querySelector(".button--red");
 
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
@@ -145,6 +149,10 @@ const handleEnded = () => {
     method: "POST",
   });
 };
+
+const handleModal = (e) => {
+  deleteModal.classList.remove("hide");
+};
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
@@ -156,5 +164,11 @@ timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullscreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
-document.addEventListener("keydown", handleKey);
+window.addEventListener("keydown", handleKey);
 videoContainer.addEventListener("click", handleContainerClick);
+
+// Modal event
+deleteBtn.addEventListener("click", handleModal);
+CancleBtn.addEventListener("click", () => {
+  deleteModal.classList.add("hide");
+});
