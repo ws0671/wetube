@@ -5,6 +5,10 @@
 /*!**************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/client/scss/styles.scss (1) ***!
   \**************************************************************************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
+/*!**************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/client/scss/styles.scss (2) ***!
+  \**************************************************************************************************************************/
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -438,6 +442,7 @@ form label {
   display: flex;
   width: 85%;
   flex-direction: column;
+  position: relative;
 }
 .video__data .video__owner {
   display: flex;
@@ -454,6 +459,29 @@ form label {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+.video__data .video__owner .menu-icon .menu-icon__option {
+  position: absolute;
+  top: 70px;
+  right: -50px;
+  background-color: #fff;
+  font-size: 16px;
+  border-radius: 10px;
+  box-shadow: 0 0 13px -5px;
+  font-family: "Open Sans", sans-serif;
+}
+.video__data .video__owner .menu-icon .menu-icon__option div:hover {
+  background-color: rgba(211, 211, 211, 0.5);
+}
+.video__data .video__owner .menu-icon .menu-icon__option .edit {
+  padding: 10px;
+}
+.video__data .video__owner .menu-icon .menu-icon__option .delete {
+  padding: 10px;
+}
+.video__data .video__owner .menu-icon .menu-icon__option a {
+  color: grey;
+  text-decoration: none;
 }
 .video__data .video__owner .video__owner-area {
   display: flex;

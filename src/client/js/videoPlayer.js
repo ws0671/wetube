@@ -1,5 +1,3 @@
-import { async } from "regenerator-runtime";
-
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const playBtnIcon = playBtn.querySelector("i");
@@ -14,12 +12,14 @@ const fullScreenBtn = document.getElementById("fullScreen");
 const fullScreenIcon = fullScreenBtn.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
-const deleteBtn = document.querySelector(".delete-button");
+const deleteBtn = document.querySelector(".delete");
 const deleteModal = document.querySelector(".delete-modal");
 const cancleBtn = document.querySelector(".button--grey");
 const commentArea = document.getElementById("comment-area");
 const middleAnimationSpan = document.querySelector(".middle-animation-icon");
 const middleAnimationIcon = middleAnimationSpan.querySelector("i");
+const menuIcon = document.querySelector(".menu-icon");
+const menuIconOption = document.querySelector(".menu-icon__option");
 
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
@@ -184,7 +184,9 @@ videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 window.addEventListener("keydown", handleKey);
 video.addEventListener("click", handleVideoClick);
-
+menuIcon?.addEventListener("click", () => {
+  menuIconOption.classList.toggle("hide");
+});
 // Modal event
 deleteBtn?.addEventListener("click", handleModal);
 cancleBtn.addEventListener("click", () => {

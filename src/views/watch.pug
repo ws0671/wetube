@@ -40,13 +40,15 @@ block content
                         span.video__owner-content-title=video.owner.name
                     span.video__owner-reader 구독자 ?명
                 button.subscribe-btn 구독
-            div.menu-icon 
-                i.fa-solid.fa-ellipsis-vertical
+            if String(video.owner._id) === String(loggedInUser._id)
+                div.menu-icon 
+                    i.fa-solid.fa-ellipsis-vertical
+                    div.menu-icon__option.hide
+                        a(href=`${video.id}/edit`)
+                            div.edit Edit
+                        a(href='#')
+                            div.delete Delete
         small.video__createdAt=new Date(video.createdAt).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})        
-        if String(video.owner._id) === String(loggedInUser._id) 
-            a(href=`${video.id}/edit`) Edit Video &rarr;
-            br
-            a(href='#').delete-button Delete Video &rarr;
         if loggedIn 
             div.video__add-comments
                 form.video__comment-form#commentForm
