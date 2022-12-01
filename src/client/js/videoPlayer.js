@@ -24,7 +24,6 @@ const middleAnimationIcon = middleAnimationSpan.querySelector("i");
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
-let middleAnimationClearTimeoutId = null;
 video.volume = volumeValue;
 
 const handlePlayClick = (e) => {
@@ -118,7 +117,7 @@ const handleMouseLeave = () => {
 
 const handleKey = (event) => {
   // 댓글쓸때 keydown 이벤트 해제하기
-  if (event.target.id === commentArea.id) return;
+  if (event.target?.id === commentArea?.id) return;
   if (event.code === "Space") {
     event.preventDefault();
     middleAnimationSpan.classList.remove("showing");
@@ -187,7 +186,7 @@ window.addEventListener("keydown", handleKey);
 video.addEventListener("click", handleVideoClick);
 
 // Modal event
-deleteBtn.addEventListener("click", handleModal);
+deleteBtn?.addEventListener("click", handleModal);
 cancleBtn.addEventListener("click", () => {
   deleteModal.classList.add("hide");
 });

@@ -33,6 +33,7 @@ input[type="submit"],
   cursor: pointer;
   display: block;
   border: none;
+  border: 1px solid black;
   &:focus {
     outline: none;
   }

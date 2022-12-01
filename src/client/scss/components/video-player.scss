@@ -27,6 +27,7 @@
     width: 100%;
   }
   .videoControls {
+    color: white;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     &.showing {
