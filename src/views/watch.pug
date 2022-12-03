@@ -48,19 +48,24 @@ block content
                             div.edit Edit
                         a(href='#')
                             div.delete Delete
-        small.video__createdAt=new Date(video.createdAt).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})        
+        div.video__description
+            span 조회수 #{video.meta.views}회 
+            span.video__createdAt=new Date(video.createdAt).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) 
+            p=video.description  
+        div.comment-count 댓글 #{video.comments.length}개     
         if loggedIn 
             div.video__add-comments
                 form.video__comment-form#commentForm
-                    textarea#comment-area(cols="30", rows="10" placeholder='Write a nice comment...')
+                    input#comment-area(placeholder='댓글 추가하기')
                     button Add Comment 
         div.video__comments
             ul 
                 each comment in video.comments.reverse()
-                    li.video__comment(data-id-comment.id)
+                    li.video__comment(data-id=comment.id)
                         i.fas.fa-comment
                         span  #{comment.text}
-                        span  ❌
+                        if String(comment.owner._id) === String(loggedInUser._id)
+                            span  ❌
     //- Modal
     div.delete-modal.hide
         span.modal__title 정말 삭제하시겠습니까?

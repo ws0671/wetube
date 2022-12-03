@@ -406,6 +406,7 @@ input[type=submit] :disabled,
 }
 .profile__data h3 {
   font-size: 18px;
+  font-weight: 600;
 }
 
 form label {
@@ -491,6 +492,7 @@ form label {
   margin-top: 10px;
   border-radius: 50%;
   width: 37px;
+  height: 37px;
 }
 .video__data .subscribe-btn {
   margin-left: 30px;
@@ -505,9 +507,6 @@ form label {
   font-size: 26px;
   margin-bottom: 5px;
   font-weight: 600;
-}
-.video__data .video__createdAt {
-  font-size: 12px;
 }
 .video__data .video__owner {
   margin-bottom: 5px;
@@ -535,6 +534,15 @@ form label {
   margin-top: 8px;
   font-size: 12px;
   color: gray;
+}
+.video__data .video__description {
+  background-color: rgba(211, 211, 211, 0.3);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+}
+.video__data .comment-count {
+  margin-top: 30px;
 }
 
 .video__comments {

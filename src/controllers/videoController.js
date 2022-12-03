@@ -114,6 +114,8 @@ export const deleteVideo = async (req, res) => {
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
+  // 지워지는 video에 연결된 comment들 삭제 로직.
+  await Comment.deleteMany({ video: id });
   //user에 저장된 videos도 지워주는 로직
   user.videos.splice(user.videos.indexOf(_id), 1);
   user.save();
@@ -164,4 +166,29 @@ export const createComment = async (req, res) => {
   video.comments.push(comment._id);
   video.save();
   return res.status(201).json({ newCommentId: comment._id });
+};
+
+export const deleteComment = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    params: { id: commentId },
+  } = req;
+
+  const comment = await Comment.findById(commentId).populate("owner");
+  const videoId = comment.video;
+  // session의 유저 id와 댓글 쓴 사람의 id가 다르면 삭제를 금지한다.
+  if (String(_id) !== String(comment.owner._id)) {
+    return res.sendStatus(404);
+  }
+  const video = await Video.findById(videoId);
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  video.comments.splice(video.comments.indexOf(videoId), 1);
+  video.save();
+  await Comment.findByIdAndDelete(commentId);
+
+  return res.sendStatus(200);
 };
