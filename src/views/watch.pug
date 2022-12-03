@@ -56,16 +56,20 @@ block content
         if loggedIn 
             div.video__add-comments
                 form.video__comment-form#commentForm
-                    input#comment-area(placeholder='댓글 추가하기')
-                    button Add Comment 
+                    img.comment__avatar(src=`${loggedInUser.avatarUrl}`)
+                    input#comment-input(placeholder='댓글 추가...')
+                    button#comment-input-button Add Comment 
         div.video__comments
             ul 
                 each comment in video.comments.reverse()
-                    li.video__comment(data-id=comment.id)
-                        i.fas.fa-comment
-                        span  #{comment.text}
+                    li.video__comment(data-id=comment.id,data-avatar-url=comment.owner.avatarUrl)
+                        div.comment__container
+                            img.comment__avatar(src=`${comment.owner.avatarUrl}`)
+                            div.comment__info
+                                div.comment__name=comment.owner.name
+                                span #{comment.text}
                         if String(comment.owner._id) === String(loggedInUser._id)
-                            span  ❌
+                            button#comment-delete-btn 삭제
     //- Modal
     div.delete-modal.hide
         span.modal__title 정말 삭제하시겠습니까?

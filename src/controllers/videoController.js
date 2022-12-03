@@ -15,7 +15,16 @@ export const watch = async (req, res) => {
   // populate -> 사전적 정의: (서류에 데이터를) 덧붙이다
   // 이렇게하면 찾은 video의 owner에 '연결된' User 정보를 '모두' 가져와 붙여준다.
   // 그리고 이것을 이용하기 위해 ref로 'User'와 연결시켜준 것이다.
-  const video = await Video.findById(id).populate("owner").populate("comments");
+  // deep populate가 가능하여서 깊게 연쇄적으로 참조할 수 있다.
+  const video = await Video.findById(id)
+    .populate("owner")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "owner",
+      },
+    });
+  const comment = await Comment.findById().populate("owner");
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
@@ -163,9 +172,14 @@ export const createComment = async (req, res) => {
     owner: user._id,
     video: id,
   });
+  const singleComment = await Comment.findById(comment._id).populate("owner");
   video.comments.push(comment._id);
   video.save();
-  return res.status(201).json({ newCommentId: comment._id });
+  return res.status(201).json({
+    newCommentId: comment._id,
+    ownerAvatarUrl: singleComment.owner.avatarUrl,
+    ownerName: singleComment.owner.name,
+  });
 };
 
 export const deleteComment = async (req, res) => {
