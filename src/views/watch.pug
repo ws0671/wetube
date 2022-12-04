@@ -32,10 +32,11 @@ block content
                         span.video__owner-content-title=video.owner.name
                     span.video__owner-reader 구독자 #{video.owner.subscribers.length}명
                 if String(video.owner._id) === String(loggedInUser._id)
-                else if user.subscribes.includes(video.owner._id)
-                    button.subscribe-btn.reading(data-id=video.owner._id) 구독중
-                else
-                    button.subscribe-btn(data-id=video.owner._id) 구독
+                if loggedIn 
+                    if user.subscribes.includes(video.owner._id)
+                        button.subscribe-btn.reading(data-id=video.owner._id) 구독중
+                    else
+                        button.subscribe-btn(data-id=video.owner._id) 구독
             if String(video.owner._id) === String(loggedInUser._id)
                 div.menu-icon 
                     i.fa-solid.fa-ellipsis-vertical
