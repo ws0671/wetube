@@ -191,7 +191,9 @@ const handleSubscribe = async (e) => {
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
-video.addEventListener("loadedmetadata", handleLoadedMetadata);
+video.readyState
+  ? handleMetadata()
+  : video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 // ended 이벤트는 HtmlMediaElement의 이벤트로써 여기서는 video가 재생완료 된 시점에 발생한다.
 video.addEventListener("ended", handleEnded);
