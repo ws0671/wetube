@@ -2,10 +2,10 @@ include mixins/message
 doctype html 
 html(lang='ko')
     head 
-        title #{pageTitle} | Wetube
+        title #{pageTitle} | WeTube
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css")
         link(rel='stylesheet' href='/static/css/styles.css')
-        link(rel="shortcut icon" href="#")
+        link(rel="shortcut icon" href='/static/youtube-favicon.ico')
 
         
     body 
@@ -15,9 +15,30 @@ html(lang='ko')
             +message('info',messages.info)
         if messages.success 
             +message('success',messages.success)
-        include partials/header   
-        main
-            block content
+        include partials/header
+        
+        div.main-container 
+            div.side-menu 
+                //- div.side-menu-item
+                //-     div
+                //-         i.fa-solid.fa-house.fa-lg
+                //-     div.home 홈
+                //- div.side-menu-item 
+                //-     div 
+                //-         i.fa-solid.fa-book-open.fa-lg
+                //-     div.subscribe 구독
+                div.subscribe
+                    h3 구독
+                    ul 
+                        each subscribe in loggedInUser.subscribes
+                            li 
+                                a(href=`/users/${subscribe._id}`)
+                                    img.subscribe__avatar(src=subscribe.avatarUrl)
+                                    div=subscribe.name
+                            
+                    
+            main
+                block content
         include partials/footer
     script(src='/static/js/main.js')
 

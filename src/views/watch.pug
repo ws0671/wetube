@@ -21,14 +21,6 @@ block content
             div
                 span#fullScreen
                     i.fas.fa-expand
-    //- 
-        div 
-            p=video.description
-            small=video.createdAt
-        div 
-            small Uploaded by 
-                a(href=`/users/${video.owner._id}`)=video.owner.name
-
     div.video__data
         p.video__title=video.title
         small.video__owner 
@@ -38,8 +30,12 @@ block content
                 div.video__owner-content 
                     a(href=`/users/${video.owner._id}`)
                         span.video__owner-content-title=video.owner.name
-                    span.video__owner-reader 구독자 ?명
-                button.subscribe-btn 구독
+                    span.video__owner-reader 구독자 #{video.owner.subscribers.length}명
+                if String(video.owner._id) === String(loggedInUser._id)
+                else if user.subscribes.includes(video.owner._id)
+                    button.subscribe-btn.reading(data-id=video.owner._id) 구독중
+                else
+                    button.subscribe-btn(data-id=video.owner._id) 구독
             if String(video.owner._id) === String(loggedInUser._id)
                 div.menu-icon 
                     i.fa-solid.fa-ellipsis-vertical
@@ -58,15 +54,15 @@ block content
                 form.video__comment-form#commentForm
                     img.comment__avatar(src=`${loggedInUser.avatarUrl}`)
                     input#comment-input(placeholder='댓글 추가...')
-                    button#comment-input-button Add Comment 
         div.video__comments
             ul 
                 each comment in video.comments.reverse()
-                    li.video__comment(data-id=comment.id,data-avatar-url=comment.owner.avatarUrl)
+                    li.video__comment(data-id=comment.id,data-created-at=comment.createdAt)
                         div.comment__container
                             img.comment__avatar(src=`${comment.owner.avatarUrl}`)
                             div.comment__info
                                 div.comment__name=comment.owner.name
+                                    span.comment__time
                                 span #{comment.text}
                         if String(comment.owner._id) === String(loggedInUser._id)
                             button#comment-delete-btn 삭제
@@ -80,5 +76,5 @@ block content
  
 block scripts
     script(src='/static/js/videoPlayer.js')
-    if loggedIn
-        script(src='/static/js/commentSection.js')
+    //- if loggedIn
+    script(src='/static/js/commentSection.js')

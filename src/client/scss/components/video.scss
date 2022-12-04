@@ -5,17 +5,26 @@
     border-radius: 7px;
     width: 100%;
     background-color: ivory;
+    margin-bottom: 10px;
   }
   .video-mixin__data {
-    padding: 0px 15px;
-    .video-mixin_title {
-      font-size: 18px;
-      display: block;
-      margin-top: 10px;
+    display: flex;
+    .video-mixin__avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .video-mixin__title {
+      font-size: 14px;
     }
     .video-mixin__meta {
-      margin-top: 5px;
+      margin-top: 10px;
       font-size: 12px;
+      color: #606060;
+      .owner-name {
+        margin-bottom: 5px;
+      }
     }
   }
 }

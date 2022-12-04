@@ -8,6 +8,7 @@ import {
   finishGithubLogin,
   getChangePassword,
   postChangePassword,
+  subscribe,
 } from "../controllers/userController";
 import {
   protectorMiddleware,
@@ -30,6 +31,7 @@ userRouter
   .post(avatarUpload.single("avatar"), postEdit);
 userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
+userRouter.post("/:id/subscribe", protectorMiddleware, subscribe);
 userRouter.get("/:id", see);
 
 export default userRouter;

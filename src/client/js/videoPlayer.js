@@ -1,3 +1,5 @@
+const { async } = require("regenerator-runtime");
+
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const playBtnIcon = playBtn.querySelector("i");
@@ -20,6 +22,7 @@ const middleAnimationSpan = document.querySelector(".middle-animation-icon");
 const middleAnimationIcon = middleAnimationSpan.querySelector("i");
 const menuIcon = document.querySelector(".menu-icon");
 const menuIconOption = document.querySelector(".menu-icon__option");
+const subscribeBtn = document.querySelector(".subscribe-btn");
 
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
@@ -170,6 +173,20 @@ const handleEnded = () => {
 const handleModal = (e) => {
   deleteModal.classList.remove("hide");
 };
+const handleSubscribe = async (e) => {
+  const { id } = e.target.dataset;
+  const response = await fetch(`/users/${id}/subscribe`, {
+    method: "POST",
+  });
+  if (response.status === 200) {
+    subscribeBtn.innerText = "구독중";
+    subscribeBtn.classList.add("reading");
+  }
+  if (response.status === 205) {
+    subscribeBtn.innerText = "구독";
+    subscribeBtn.classList.remove("reading");
+  }
+};
 
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
@@ -187,6 +204,9 @@ video.addEventListener("click", handleVideoClick);
 menuIcon?.addEventListener("click", () => {
   menuIconOption.classList.toggle("hide");
 });
+if (subscribeBtn) {
+  subscribeBtn.addEventListener("click", handleSubscribe);
+}
 // Modal event
 deleteBtn?.addEventListener("click", handleModal);
 cancleBtn.addEventListener("click", () => {

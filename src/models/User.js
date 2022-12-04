@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  avatarUrl: { type: String, default: "/uploads\\avatar\\defaultProfile.jpg" },
+  avatarUrl: { type: String, default: "/static/defaultProfile.jpg" },
   socialOnly: { type: Boolean, default: false },
   username: { type: String, required: true, unique: true },
   password: { type: String },
@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
   location: String,
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
+  // 내가 구독중인 사람들
+  subscribes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  // 나를 구독중인 사람들
+  subscribers: [{ type: mongoose.Schema.Types.ObjectId }],
 });
 
 userSchema.pre("save", async function () {

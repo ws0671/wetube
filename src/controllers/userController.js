@@ -2,6 +2,7 @@ import User from "../models/User";
 import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
+import { async } from "regenerator-runtime";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
@@ -48,7 +49,10 @@ export const getLogin = (req, res) =>
 export const postLogin = async (req, res) => {
   const pageTitle = "Login";
   const { username, password } = req.body;
-  const user = await User.findOne({ username, socialOnly: false });
+  const user = await User.findOne({ username, socialOnly: false }).populate(
+    "subscribes"
+  );
+  console.log(user);
   if (!user) {
     return res.status(400).render("login", {
       pageTitle: "Login",
@@ -233,6 +237,32 @@ export const postChangePassword = async (req, res) => {
   return res.redirect("/users/logout");
 };
 
+export const subscribe = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    params: { id },
+  } = req;
+  //id는 비디오 주인
+  const user = await User.findById(_id);
+  const owner = await User.findById(id);
+  // status 205는 reset content
+  // 구독취소
+  if (user.subscribes.includes(id)) {
+    user.subscribes.splice(user.subscribes.indexOf(id), 1);
+    user.save();
+    owner.subscribers.splice(owner.subscribers.indexOf(_id), 1);
+    owner.save();
+    return res.sendStatus(205);
+  }
+
+  user.subscribes.push(id);
+  user.save();
+  owner.subscribers.push(_id);
+  owner.save();
+  return res.sendStatus(200);
+};
 export const see = async (req, res) => {
   const { id } = req.params;
   // double populate 찾은 유저에 vidoes를 poplulate하고 거기에 owner를 populate함.
