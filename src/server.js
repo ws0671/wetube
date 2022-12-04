@@ -41,6 +41,7 @@ app.use(localsMiddleware);
 // 앞에 인자는 공개될 경로를 나타낸다
 app.use("/static", express.static("assets"));
 app.use("/uploads", express.static("uploads"));
+app.use("/public", express.static("public"));
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
