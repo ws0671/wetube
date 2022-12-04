@@ -52,6 +52,7 @@ export const postLogin = async (req, res) => {
   const user = await User.findOne({ username, socialOnly: false }).populate(
     "subscribes"
   );
+
   if (!user) {
     return res.status(400).render("login", {
       pageTitle: "Login",
@@ -244,6 +245,7 @@ export const subscribe = async (req, res) => {
     params: { id },
   } = req;
   //id는 비디오 주인
+
   const user = await User.findById(_id);
   const owner = await User.findById(id);
   // status 205는 reset content
@@ -253,6 +255,7 @@ export const subscribe = async (req, res) => {
     user.save();
     owner.subscribers.splice(owner.subscribers.indexOf(_id), 1);
     owner.save();
+
     return res.sendStatus(205);
   }
 
@@ -260,6 +263,7 @@ export const subscribe = async (req, res) => {
   user.save();
   owner.subscribers.push(_id);
   owner.save();
+
   return res.sendStatus(200);
 };
 export const see = async (req, res) => {

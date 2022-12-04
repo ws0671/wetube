@@ -17,7 +17,7 @@ const videoControls = document.getElementById("videoControls");
 const deleteBtn = document.querySelector(".delete");
 const deleteModal = document.querySelector(".delete-modal");
 const cancleBtn = document.querySelector(".button--grey");
-const commentArea = document.getElementById("comment-area");
+const commentInput = document.getElementById("comment-input");
 const middleAnimationSpan = document.querySelector(".middle-animation-icon");
 const middleAnimationIcon = middleAnimationSpan.querySelector("i");
 const menuIcon = document.querySelector(".menu-icon");
@@ -120,7 +120,7 @@ const handleMouseLeave = () => {
 
 const handleKey = (event) => {
   // 댓글쓸때 keydown 이벤트 해제하기
-  if (event.target?.id === commentArea?.id) return;
+  if (event.target?.id === commentInput?.id) return;
   if (event.code === "Space") {
     event.preventDefault();
     middleAnimationSpan.classList.remove("showing");
