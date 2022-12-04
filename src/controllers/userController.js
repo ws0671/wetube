@@ -52,7 +52,6 @@ export const postLogin = async (req, res) => {
   const user = await User.findOne({ username, socialOnly: false }).populate(
     "subscribes"
   );
-  console.log(user);
   if (!user) {
     return res.status(400).render("login", {
       pageTitle: "Login",
