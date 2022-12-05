@@ -12,11 +12,9 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => {
   const {
-    session: {
-      user: { _id },
-    },
     params: { id },
   } = req;
+  console.log(req.session.loggedIn);
   // populate -> 사전적 정의: (서류에 데이터를) 덧붙이다
   // 이렇게하면 찾은 video의 owner에 '연결된' User 정보를 '모두' 가져와 붙여준다.
   // 그리고 이것을 이용하기 위해 ref로 'User'와 연결시켜준 것이다.
@@ -29,12 +27,20 @@ export const watch = async (req, res) => {
         path: "owner",
       },
     });
-  const user = await User.findById(_id);
 
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
-  return res.render("watch", { pageTitle: video.title, video, user });
+  if (req.session.loggedIn) {
+    const {
+      session: {
+        user: { _id },
+      },
+    } = req;
+    const user = await User.findById(_id);
+    return res.render("watch", { pageTitle: video.title, video, user });
+  }
+  return res.render("watch", { pageTitle: video.title, video });
 };
 export const getEdit = async (req, res) => {
   const { id } = req.params;
