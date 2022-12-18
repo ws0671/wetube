@@ -6,7 +6,7 @@ import { async } from "regenerator-runtime";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
-  const { name, username, password, password2, location, email } = req.body;
+  const { name, username, password, password2, email } = req.body;
   const pageTitle = "Join";
 
   if (password !== password2) {
@@ -32,7 +32,6 @@ export const postJoin = async (req, res) => {
       username,
       email,
       password,
-      location,
     });
     return res.redirect("/login");
   } catch (error) {
@@ -158,7 +157,7 @@ export const postEdit = async (req, res) => {
     session: {
       user: { _id, avatarUrl },
     },
-    body: { name, email, username, location },
+    body: { name, email, username },
     // req.file은 multer 미들웨어를 사용했을때만 쓸 수 있다.
     file,
   } = req;
@@ -176,7 +175,6 @@ export const postEdit = async (req, res) => {
       name,
       email,
       username,
-      location,
     },
     { new: true }
   );
