@@ -52,15 +52,23 @@ const sideMenuMini = document.querySelector(".side-menu--mini");
 const sideMenu = document.querySelector(".side-menu");
 const burgerIcon = document.querySelector(".header__bars");
 let toggle = "normal";
+
+if (localStorage.getItem("normal") === "false") {
+  sideMenuMini.style.display = "flex";
+  sideMenu.style.display = "none";
+  toggle = "mini";
+}
 const handleMenu = () => {
   if (toggle === "normal") {
     sideMenu.style.display = "none";
     sideMenuMini.style.display = "flex";
+    localStorage.setItem("normal", false);
     toggle = "mini";
   } else if (toggle === "mini") {
     sideMenu.style.display = "block";
     sideMenuMini.style.display = "none";
     toggle = "normal";
+    localStorage.setItem("normal", true);
   }
 };
 

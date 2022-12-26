@@ -165,6 +165,7 @@ header .logo-container .header__bars {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  cursor: pointer;
 }
 header .logo-container .header__bars:hover {
   background-color: rgba(211, 211, 211, 0.6);
