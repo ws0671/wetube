@@ -18,15 +18,31 @@ html(lang='ko')
         include partials/header
         
         div.main-container 
-            div.side-menu 
-                //- div.side-menu-item
-                //-     div
-                //-         i.fa-solid.fa-house.fa-lg
-                //-     div.home 홈
-                //- div.side-menu-item 
-                //-     div 
-                //-         i.fa-solid.fa-book-open.fa-lg
-                //-     div.subscribe 구독
+            div.side-menu--mini 
+                div.side-menu-item
+                    div.icon-box
+                        i.fa-solid.fa-house.fa-lg
+                    div.side-menu__name 홈
+                div.side-menu-item 
+                    div.icon-box 
+                        i.fa-solid.fa-book-open.fa-lg
+                    div.side-menu__name 구독
+
+            div.side-menu
+                div.side-menu-item--l
+                    div.icon-box--l
+                        i.fa-solid.fa-house.fa-lg
+                    div.side-menu__name--l 홈
+                div.side-menu-item--l
+                    div.icon-box--l 
+                        i.fa-solid.fa-book-open.fa-lg
+                    div.side-menu__name--l 구독
+
+
+
+
+
+
                 //- div.subscribe
                 //-     h3 구독
                 //-     if loggedIn

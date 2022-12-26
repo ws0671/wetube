@@ -40,9 +40,45 @@ body {
 
 .main-container {
   display: flex;
-  .side-menu {
-    width: 200px;
+  .side-menu-item--l {
+    display: flex;
+    padding: 0 8px;
+    margin-left: 10px;
+    width: 204px;
+    height: 40px;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f2f2f2;
+    }
+    .icon-box--l {
+      margin-right: 28px;
+    }
+  }
+
+  .side-menu--mini {
+    display: none;
+    // display: flex;
+    flex-direction: column;
     margin-right: 20px;
+    width: 64px;
+    align-items: center;
+    text-align: center;
+    .side-menu-item {
+      width: 100%;
+      padding: 16px 0 14px 0;
+      border-radius: 10px;
+      &:hover {
+        background-color: #f2f2f2;
+        cursor: pointer;
+      }
+      .side-menu__name {
+        margin-top: 10px;
+        font-size: 11px;
+      }
+    }
+
     .subscribe {
       margin-left: 18px;
       h3 {

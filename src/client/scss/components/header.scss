@@ -1,5 +1,5 @@
 header {
-  padding: 10px 25px;
+  padding: 10px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,6 +11,8 @@ header {
       justify-content: center;
       align-items: center;
       width: 40px;
+      height: 40px;
+      border-radius: 50%;
       &:hover {
         background-color: rgba(211, 211, 211, 0.6);
         border-radius: 50%;
@@ -34,7 +36,7 @@ header {
     justify-content: space-between;
     align-items: center;
     li {
-      margin-left: 30px;
+      margin-right: 30px;
       font-size: 14px;
       font-weight: 600;
       text-transform: uppercase;

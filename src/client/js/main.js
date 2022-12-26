@@ -47,3 +47,21 @@ const relativeTimeFn = () => {
   });
 };
 relativeTimeFn();
+
+const sideMenuMini = document.querySelector(".side-menu--mini");
+const sideMenu = document.querySelector(".side-menu");
+const burgerIcon = document.querySelector(".header__bars");
+let toggle = "normal";
+const handleMenu = () => {
+  if (toggle === "normal") {
+    sideMenu.style.display = "none";
+    sideMenuMini.style.display = "flex";
+    toggle = "mini";
+  } else if (toggle === "mini") {
+    sideMenu.style.display = "block";
+    sideMenuMini.style.display = "none";
+    toggle = "normal";
+  }
+};
+
+burgerIcon.addEventListener("click", handleMenu);
