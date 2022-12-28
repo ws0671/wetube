@@ -263,9 +263,12 @@ export const subscribe = async (req, res) => {
     await owner.save();
 
     user = await User.findById(_id).populate("subscribes");
+    owner = await User.findById(id);
+
     req.session.user = user;
     return res.status(202).json({
       userSubscribes: user.subscribes,
+      ownerSubscribers: owner.subscribers,
     });
   }
 
@@ -274,10 +277,12 @@ export const subscribe = async (req, res) => {
   owner.subscribers.push(_id);
   await owner.save();
   user = await User.findById(_id).populate("subscribes");
+  owner = await User.findById(id);
   req.session.user = user;
   // 202는 Accepted
   return res.status(200).json({
     userSubscribes: user.subscribes,
+    ownerSubscribers: owner.subscribers,
   });
 };
 export const see = async (req, res) => {

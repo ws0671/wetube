@@ -175,21 +175,20 @@ const handleModal = (e) => {
   deleteModal.classList.remove("hide");
 };
 
-const render = (subscribes) => {
+const render = (subscribes, subscribers) => {
   let renderHTML = "";
 
   const subscribeUl = document.querySelector(".subscribe ul");
+  numberOfSubscribes.innerText = `구독자 ${subscribers.length}명`;
   if (subscribes.length) {
     subscribes.forEach((subscribe) => {
       renderHTML += `<li><a href='/users/${subscribe._id}'>
       <img class='subscribe__avatar' src='${subscribe.avatarUrl}'/>
       <div>${subscribe.name}</div></a></li>`;
       subscribeUl.innerHTML = renderHTML;
-      numberOfSubscribes.innerText = `구독자 ${subscribes.length}명`;
     });
   } else {
     subscribeUl.innerHTML = "";
-    numberOfSubscribes.innerText = `구독자 0명`;
   }
 };
 
@@ -209,14 +208,14 @@ const handleSubscribe = async (e) => {
   if (response.status === 200) {
     subscribeBtn.innerText = "구독중";
     subscribeBtn.classList.add("reading");
-    const { userSubscribes } = await response.json();
-    render(userSubscribes);
+    const { userSubscribes, ownerSubscribers } = await response.json();
+    render(userSubscribes, ownerSubscribers);
   }
   if (response.status === 202) {
     subscribeBtn.innerText = "구독";
     subscribeBtn.classList.remove("reading");
-    const { userSubscribes } = await response.json();
-    render(userSubscribes);
+    const { userSubscribes, ownerSubscribers } = await response.json();
+    render(userSubscribes, ownerSubscribers);
   }
 };
 
