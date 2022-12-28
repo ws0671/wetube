@@ -24,7 +24,7 @@ const middleAnimationIcon = middleAnimationSpan.querySelector("i");
 const menuIcon = document.querySelector(".menu-icon");
 const menuIconOption = document.querySelector(".menu-icon__option");
 const subscribeBtn = document.querySelector(".subscribe-btn");
-
+const numberOfSubscribes = document.querySelector(".video__owner-reader");
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
@@ -174,6 +174,25 @@ const handleEnded = () => {
 const handleModal = (e) => {
   deleteModal.classList.remove("hide");
 };
+
+const render = (subscribes) => {
+  let renderHTML = "";
+
+  const subscribeUl = document.querySelector(".subscribe ul");
+  if (subscribes.length) {
+    subscribes.forEach((subscribe) => {
+      renderHTML += `<li><a href='/users/${subscribe._id}'>
+      <img class='subscribe__avatar' src='${subscribe.avatarUrl}'/>
+      <div>${subscribe.name}</div></a></li>`;
+      subscribeUl.innerHTML = renderHTML;
+      numberOfSubscribes.innerText = `구독자 ${subscribes.length}명`;
+    });
+  } else {
+    subscribeUl.innerHTML = "";
+    numberOfSubscribes.innerText = `구독자 0명`;
+  }
+};
+
 const handleSubscribe = async (e) => {
   const { id } = e.target.dataset;
   if (!id) {
@@ -182,15 +201,22 @@ const handleSubscribe = async (e) => {
 
   const response = await fetch(`/users/${id}/subscribe`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
-  if (response.status === 202) {
+  if (response.status === 200) {
     subscribeBtn.innerText = "구독중";
     subscribeBtn.classList.add("reading");
+    const { userSubscribes } = await response.json();
+    render(userSubscribes);
   }
-  if (response.status === 205) {
+  if (response.status === 202) {
     subscribeBtn.innerText = "구독";
     subscribeBtn.classList.remove("reading");
+    const { userSubscribes } = await response.json();
+    render(userSubscribes);
   }
 };
 

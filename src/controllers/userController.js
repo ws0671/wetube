@@ -248,8 +248,8 @@ export const subscribe = async (req, res) => {
   } = req;
   //id는 비디오 주인
 
-  const user = await User.findById(_id).populate("subscribes");
-  const owner = await User.findById(id);
+  let user = await User.findById(_id).populate("subscribes");
+  let owner = await User.findById(id);
 
   // status 205는 reset content
   // 구독취소
@@ -262,17 +262,23 @@ export const subscribe = async (req, res) => {
     owner.subscribers.splice(owner.subscribers.indexOf(_id), 1);
     await owner.save();
 
-    req.session.user = await User.findById(_id).populate("subscribes");
-    return res.sendStatus(205);
+    user = await User.findById(_id).populate("subscribes");
+    req.session.user = user;
+    return res.status(202).json({
+      userSubscribes: user.subscribes,
+    });
   }
 
   user.subscribes.push(id);
   await user.save();
   owner.subscribers.push(_id);
   await owner.save();
-  req.session.user = await User.findById(_id).populate("subscribes");
+  user = await User.findById(_id).populate("subscribes");
+  req.session.user = user;
   // 202는 Accepted
-  return res.sendStatus(202);
+  return res.status(200).json({
+    userSubscribes: user.subscribes,
+  });
 };
 export const see = async (req, res) => {
   const { id } = req.params;
