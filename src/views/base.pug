@@ -37,21 +37,23 @@ html(lang='ko')
                     div.icon-box--l 
                         i.fa-solid.fa-book-open.fa-lg
                     div.side-menu__name--l 구독
+                div.line
+                if loggedIn
+                    div.subscribe
+                        h3 구독 
+                        ul 
+                            each subscribe in loggedInUser.subscribes
+                                li 
+                                    a(href=`/users/${subscribe._id}`)
+                                        img.subscribe__avatar(src=`${subscribe.avatarUrl}`)
+                                        div=subscribe.name
 
 
 
 
 
 
-                //- div.subscribe
-                //-     h3 구독
-                //-     if loggedIn
-                //-         ul 
-                //-             each subscribe in loggedInUser.subscribes
-                //-                 li 
-                //-                     a(href=`/users/${subscribe._id}`)
-                //-                         img.subscribe__avatar(src=subscribe.avatarUrl)
-                //-                         div=subscribe.name
+                
                             
                     
             main

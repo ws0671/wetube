@@ -56,6 +56,39 @@ body {
       margin-right: 28px;
     }
   }
+  .line {
+    margin: 15px;
+    height: 1px;
+    width: 95%;
+    background-color: rgba(211, 211, 211, 0.7);
+  }
+  .subscribe {
+    margin-left: 18px;
+    h3 {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    li {
+      a {
+        display: flex;
+        align-items: center;
+      }
+      margin-left: -10px;
+      padding: 10px 12px;
+      img {
+        margin-right: 20px;
+      }
+      &:hover {
+        background-color: rgba(211, 211, 211, 0.5);
+        border-radius: 7px;
+      }
+    }
+    .subscribe__avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+  }
 
   .side-menu--mini {
     // display: flex;
@@ -76,34 +109,6 @@ body {
       .side-menu__name {
         margin-top: 10px;
         font-size: 11px;
-      }
-    }
-
-    .subscribe {
-      margin-left: 18px;
-      h3 {
-        border-top: 1px solid rgba(211, 211, 211, 0.7);
-        padding: 0 12px;
-        padding-top: 20px;
-      }
-      li {
-        a {
-          display: flex;
-          align-items: center;
-        }
-        padding: 10px 12px;
-        img {
-          margin-right: 20px;
-        }
-        &:hover {
-          background-color: rgba(211, 211, 211, 0.5);
-          border-radius: 7px;
-        }
-      }
-      .subscribe__avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
       }
     }
   }
@@ -135,6 +140,25 @@ main {
   max-width: 200px;
   padding: 10px 20px;
   border-radius: 10000px;
+  text-align: center;
+  animation: goAway 0.5s ease-in-out forwards;
+  animation-delay: 5s;
+  &.error {
+    background-color: tomato;
+    color: white;
+  }
+}
+
+.flash-message {
+  position: fixed;
+  top: 10px;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  max-width: 200px;
+  padding: 10px 20px;
+  border-radius: 10000px;
+  z-index: 999;
   text-align: center;
   animation: goAway 0.5s ease-in-out forwards;
   animation-delay: 5s;

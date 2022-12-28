@@ -1,4 +1,5 @@
 const { async } = require("regenerator-runtime");
+import message from "./components/message";
 
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
@@ -175,10 +176,15 @@ const handleModal = (e) => {
 };
 const handleSubscribe = async (e) => {
   const { id } = e.target.dataset;
+  if (!id) {
+    message("error", "Log in First");
+  }
+
   const response = await fetch(`/users/${id}/subscribe`, {
     method: "POST",
   });
-  if (response.status === 200) {
+
+  if (response.status === 202) {
     subscribeBtn.innerText = "구독중";
     subscribeBtn.classList.add("reading");
   }

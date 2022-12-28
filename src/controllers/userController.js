@@ -236,6 +236,10 @@ export const postChangePassword = async (req, res) => {
 };
 
 export const subscribe = async (req, res) => {
+  // if (!req.session.loggedIn) {
+  //   req.flash("error", "로그인이 필요한 서비스입니다.");
+  //   return res.redirect(`/`);
+  // }
   const {
     session: {
       user: { _id },
@@ -244,25 +248,31 @@ export const subscribe = async (req, res) => {
   } = req;
   //id는 비디오 주인
 
-  const user = await User.findById(_id);
+  const user = await User.findById(_id).populate("subscribes");
   const owner = await User.findById(id);
+
   // status 205는 reset content
   // 구독취소
-  if (user.subscribes.includes(id)) {
-    user.subscribes.splice(user.subscribes.indexOf(id), 1);
-    user.save();
+  if (user.subscribes.some((i) => i._id == id)) {
+    user.subscribes.splice(
+      user.subscribes.findIndex((i) => i._id == id),
+      1
+    );
+    await user.save();
     owner.subscribers.splice(owner.subscribers.indexOf(_id), 1);
-    owner.save();
+    await owner.save();
 
+    req.session.user = await User.findById(_id).populate("subscribes");
     return res.sendStatus(205);
   }
 
   user.subscribes.push(id);
-  user.save();
+  await user.save();
   owner.subscribers.push(_id);
-  owner.save();
-
-  return res.sendStatus(200);
+  await owner.save();
+  req.session.user = await User.findById(_id).populate("subscribes");
+  // 202는 Accepted
+  return res.sendStatus(202);
 };
 export const see = async (req, res) => {
   const { id } = req.params;

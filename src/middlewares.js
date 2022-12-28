@@ -1,6 +1,7 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
 import { S3Client } from "@aws-sdk/client-s3";
+import User from "./models/User";
 
 const s3 = new S3Client({
   region: "ap-northeast-2",
@@ -38,6 +39,7 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "Wetube";
   res.locals.loggedInUser = req.session.user || {};
   res.locals.isHeroku = isHeroku;
+  // console.log(res.locals.loggedInUser.subscribes);
   // console.log(res.locals.loggedInUser.subscribes.avatarUrl);
   // console.log(res.locals.loggedInUser.subscribes.name);
   next();

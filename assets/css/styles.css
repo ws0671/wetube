@@ -732,6 +732,39 @@ body {
 .main-container .side-menu-item--l .icon-box--l {
   margin-right: 28px;
 }
+.main-container .line {
+  margin: 15px;
+  height: 1px;
+  width: 95%;
+  background-color: rgba(211, 211, 211, 0.7);
+}
+.main-container .subscribe {
+  margin-left: 18px;
+}
+.main-container .subscribe h3 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.main-container .subscribe li {
+  margin-left: -10px;
+  padding: 10px 12px;
+}
+.main-container .subscribe li a {
+  display: flex;
+  align-items: center;
+}
+.main-container .subscribe li img {
+  margin-right: 20px;
+}
+.main-container .subscribe li:hover {
+  background-color: rgba(211, 211, 211, 0.5);
+  border-radius: 7px;
+}
+.main-container .subscribe .subscribe__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
 .main-container .side-menu--mini {
   display: none;
   flex-direction: column;
@@ -752,33 +785,6 @@ body {
 .main-container .side-menu--mini .side-menu-item .side-menu__name {
   margin-top: 10px;
   font-size: 11px;
-}
-.main-container .side-menu--mini .subscribe {
-  margin-left: 18px;
-}
-.main-container .side-menu--mini .subscribe h3 {
-  border-top: 1px solid rgba(211, 211, 211, 0.7);
-  padding: 0 12px;
-  padding-top: 20px;
-}
-.main-container .side-menu--mini .subscribe li {
-  padding: 10px 12px;
-}
-.main-container .side-menu--mini .subscribe li a {
-  display: flex;
-  align-items: center;
-}
-.main-container .side-menu--mini .subscribe li img {
-  margin-right: 20px;
-}
-.main-container .side-menu--mini .subscribe li:hover {
-  background-color: rgba(211, 211, 211, 0.5);
-  border-radius: 7px;
-}
-.main-container .side-menu--mini .subscribe .subscribe__avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
 }
 
 main {
@@ -812,6 +818,25 @@ main {
   animation-delay: 5s;
 }
 .message.error {
+  background-color: tomato;
+  color: white;
+}
+
+.flash-message {
+  position: fixed;
+  top: 10px;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  max-width: 200px;
+  padding: 10px 20px;
+  border-radius: 10000px;
+  z-index: 999;
+  text-align: center;
+  animation: goAway 0.5s ease-in-out forwards;
+  animation-delay: 5s;
+}
+.flash-message.error {
   background-color: tomato;
   color: white;
 }

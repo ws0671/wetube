@@ -14,7 +14,6 @@ export const watch = async (req, res) => {
   const {
     params: { id },
   } = req;
-  console.log(req.session.loggedIn);
   // populate -> 사전적 정의: (서류에 데이터를) 덧붙이다
   // 이렇게하면 찾은 video의 owner에 '연결된' User 정보를 '모두' 가져와 붙여준다.
   // 그리고 이것을 이용하기 위해 ref로 'User'와 연결시켜준 것이다.
@@ -40,6 +39,8 @@ export const watch = async (req, res) => {
     const user = await User.findById(_id);
     return res.render("watch", { pageTitle: video.title, video, user });
   }
+  // console.log(video);
+
   return res.render("watch", { pageTitle: video.title, video });
 };
 export const getEdit = async (req, res) => {
