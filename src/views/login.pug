@@ -2,7 +2,7 @@ extend base
 
 block content 
     if errorMessage 
-        span=errorMessage
+        span.error-span=errorMessage
     form(method="POST")
         input(placeholder='ID',name='username' , type='text',required)
         input(placeholder='Password',name='password', type='password',required)

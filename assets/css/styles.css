@@ -233,6 +233,9 @@ footer {
   margin-right: 10px;
   object-fit: cover;
 }
+.video-mixin .video-mixin__data .video-mixin__content {
+  padding-right: 24px;
+}
 .video-mixin .video-mixin__data .video-mixin__title {
   font-size: 14px;
 }
@@ -815,10 +818,18 @@ main {
   border-radius: 10000px;
   text-align: center;
   animation: goAway 0.5s ease-in-out forwards;
-  animation-delay: 5s;
+  animation-delay: 3s;
 }
 .message.error {
   background-color: tomato;
+  color: white;
+}
+.message.success {
+  background-color: black;
+  color: white;
+}
+.message.info {
+  background-color: black;
   color: white;
 }
 
@@ -839,4 +850,10 @@ main {
 .flash-message.error {
   background-color: tomato;
   color: white;
+}
+
+.error-span {
+  display: flex;
+  justify-content: center;
+  color: red;
 }

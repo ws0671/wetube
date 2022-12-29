@@ -54,7 +54,7 @@ export const getEdit = async (req, res) => {
   }
   // 403에러는 forbidden이다. 비디오 작성자와 로그인한 사람의 id를 비교하여 다르면 edit에
   // 접근할 수 없도록한다.
-  if (String(video.owner) !== String(_id)) {
+  if (String(video.owner._id) !== String(_id)) {
     req.flash("error", "Not authorized");
     return res.status(403).redirect("/");
   }
@@ -67,12 +67,12 @@ export const postEdit = async (req, res) => {
   } = req.session;
   const { title, description, hashtags } = req.body;
   const { id } = req.params;
-  const video = await Video.exists({ _id: id });
+  const video = await Video.findById(id);
   if (!video) {
     return res.render(404, { pageTitle: "Video not found." });
   }
   // 마찬가지로 postEdit에도 동일하게 보안처리를 해준다.
-  if (String(video.owner) !== String(_id)) {
+  if (String(video.owner._id) !== String(_id)) {
     req.flash("error", "You are not the owner of the video");
     return res.status(403).redirect("/");
   }

@@ -142,9 +142,17 @@ main {
   border-radius: 10000px;
   text-align: center;
   animation: goAway 0.5s ease-in-out forwards;
-  animation-delay: 5s;
+  animation-delay: 3s;
   &.error {
     background-color: tomato;
+    color: white;
+  }
+  &.success {
+    background-color: black;
+    color: white;
+  }
+  &.info {
+    background-color: black;
     color: white;
   }
 }
@@ -166,4 +174,10 @@ main {
     background-color: tomato;
     color: white;
   }
+}
+
+.error-span {
+  display: flex;
+  justify-content: center;
+  color: red;
 }
