@@ -13,23 +13,23 @@ const s3 = new S3Client({
 
 const s3ImageUploader = multerS3({
   s3: s3,
-  bucket: "wetube-ws0671/images",
+  bucket: "wetube-ws0671",
   acl: "public-read",
-  // key: function (request, file, ab_callback) {
-  //   const newFileName = Date.now() + "-" + file.originalname;
-  //   const fullPath = "images/" + newFileName;
-  //   ab_callback(null, fullPath);
-  // },
+  key: function (request, file, ab_callback) {
+    const newFileName = Date.now() + "-" + file.originalname;
+    const fullPath = "images/" + newFileName;
+    ab_callback(null, fullPath);
+  },
 });
 const s3VideoUploader = multerS3({
   s3: s3,
-  bucket: "wetube-ws0671/videos",
+  bucket: "wetube-ws0671",
   acl: "public-read",
-  // key: function (request, file, ab_callback) {
-  //   const newFileName = Date.now() + "-" + file.originalname;
-  //   const fullPath = "videos/" + newFileName;
-  //   ab_callback(null, fullPath);
-  // },
+  key: function (request, file, ab_callback) {
+    const newFileName = Date.now() + "-" + file.originalname;
+    const fullPath = "videos/" + newFileName;
+    ab_callback(null, fullPath);
+  },
 });
 // heroku에 있다면 true를 반환
 const isHeroku = process.env.NODE_ENV === "production";
