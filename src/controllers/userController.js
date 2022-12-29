@@ -177,7 +177,7 @@ export const postEdit = async (req, res) => {
       username,
     },
     { new: true }
-  );
+  ).populate("subscribes");
   req.session.user = updatedUser;
   return res.redirect(`/users/${_id}`);
   // if (sessionEmail !== email && sessionUsername !== username) {
