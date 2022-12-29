@@ -13,12 +13,8 @@ const s3 = new S3Client({
 
 const s3ImageUploader = multerS3({
   s3: s3,
-  bucket: "wetube-ws0671",
-  Condition: {
-    StringEquals: {
-      "s3:x-amz-acl": ["public-read"],
-    },
-  },
+  bucket: "wetube-ws0671/images",
+  acl: "public-read",
   key: function (request, file, ab_callback) {
     const newFileName = Date.now() + "-" + file.originalname;
     const fullPath = "images/" + newFileName;
@@ -28,11 +24,7 @@ const s3ImageUploader = multerS3({
 const s3VideoUploader = multerS3({
   s3: s3,
   bucket: "wetube-ws0671",
-  Condition: {
-    StringEquals: {
-      "s3:x-amz-acl": ["public-read"],
-    },
-  },
+  acl: "public-read",
   key: function (request, file, ab_callback) {
     const newFileName = Date.now() + "-" + file.originalname;
     const fullPath = "videos/" + newFileName;
