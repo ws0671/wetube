@@ -13,7 +13,7 @@ const s3 = new S3Client({
 
 const s3ImageUploader = multerS3({
   s3: s3,
-  bucket: "wetube-ws0671/images",
+  bucket: "wetube-ws0671",
   acl: "public-read",
   key: function (request, file, ab_callback) {
     const newFileName = Date.now() + "-" + file.originalname;
