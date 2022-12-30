@@ -39,9 +39,7 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "Wetube";
   res.locals.loggedInUser = req.session.user || {};
   res.locals.isHeroku = isHeroku;
-  // console.log(res.locals.loggedInUser.subscribes);
-  // console.log(res.locals.loggedInUser.subscribes.avatarUrl);
-  // console.log(res.locals.loggedInUser.subscribes.name);
+  console.log(res.locals.isHeroku);
   next();
 };
 
