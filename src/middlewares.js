@@ -4,7 +4,7 @@ import { S3Client } from "@aws-sdk/client-s3";
 import User from "./models/User";
 
 const s3 = new S3Client({
-  // region: "ap-northeast-2",
+  region: "ap-northeast-2",
   credentials: {
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET,
