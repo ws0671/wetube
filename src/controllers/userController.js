@@ -164,7 +164,7 @@ export const postEdit = async (req, res) => {
   } = req;
   const sessionEmail = req.session.user.email;
   const sessionUsername = req.session.user.username;
-  const isHeroku = process.env.NODE_ENV === "production";
+  const isHeroku = process.env.PORT === 8000;
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
