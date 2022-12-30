@@ -32,14 +32,13 @@ const s3VideoUploader = multerS3({
   },
 });
 // heroku에 있다면 true를 반환
-const isHeroku = process.env.PORT === 8000;
+const isHeroku = process.env.NODE_ENV === "production";
 
 export const localsMiddleware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.siteName = "Wetube";
   res.locals.loggedInUser = req.session.user || {};
   res.locals.isHeroku = isHeroku;
-  console.log(res.locals.isHeroku);
   next();
 };
 
