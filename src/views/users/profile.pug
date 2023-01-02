@@ -6,7 +6,7 @@ block content
         //- if !loggedInUser.avatarUrl
         //-     span.header__avatar--default 🙂
         //- else
-        img(src=user.avatarUrl,crossorigin).avatar
+        img(src=user.avatarUrl).avatar
         h3=user.name
     div.video-grid
         each video in user.videos
