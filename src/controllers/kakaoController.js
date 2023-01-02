@@ -3,10 +3,13 @@ import fetch from "node-fetch";
 import User from "../models/User";
 
 export const starKakaoLogin = (req, res) => {
+  const isHeroku = process.env.NODE_ENV === "production";
   const baseUrl = `https://kauth.kakao.com/oauth/authorize`;
   const config = {
     response_type: "code",
-    redirect_uri: "https://wetube-ws0671.koyeb.app/users/kakao/finish",
+    redirect_uri: isHeroku
+      ? "https://wetube-ws0671.koyeb.app/users/kakao/finish"
+      : "http://localhost:4000/users/kakao/finish",
     client_id: process.env.KAKAO_CLIENT,
     // scope: "profile_nickname,profile_image,account_email",
   };
@@ -17,11 +20,14 @@ export const starKakaoLogin = (req, res) => {
 };
 
 export const finishKakaoLogin = async (req, res) => {
+  const isHeroku = process.env.NODE_ENV === "production";
   const baseUrl = "https://kauth.kakao.com/oauth/token";
   const config = {
     grant_type: "authorization_code",
     client_id: process.env.KAKAO_CLIENT,
-    redirect_uri: "https://wetube-ws0671.koyeb.app/users/kakao/finish",
+    redirect_uri: isHeroku
+      ? "https://wetube-ws0671.koyeb.app/users/kakao/finish"
+      : "http://localhost:4000/users/kakao/finish",
     client_secret: process.env.KAKAO_SECRET,
     code: req.query.code,
   };
@@ -45,6 +51,7 @@ export const finishKakaoLogin = async (req, res) => {
         },
       })
     ).json();
+    console.log(userData);
     let user = await User.findOne({
       email: userData.kakao_account.email,
     });
