@@ -6,7 +6,7 @@ export const starKakaoLogin = (req, res) => {
   const baseUrl = `https://kauth.kakao.com/oauth/authorize`;
   const config = {
     response_type: "code",
-    redirect_uri: "http://localhost:4000/users/kakao/finish",
+    redirect_uri: "https://wetube-ws0671.koyeb.app/users/kakao/finish",
     client_id: process.env.KAKAO_CLIENT,
     // scope: "profile_nickname,profile_image,account_email",
   };
@@ -21,7 +21,7 @@ export const finishKakaoLogin = async (req, res) => {
   const config = {
     grant_type: "authorization_code",
     client_id: process.env.KAKAO_CLIENT,
-    redirect_uri: "http://localhost:4000/users/kakao/finish",
+    redirect_uri: "https://wetube-ws0671.koyeb.app/users/kakao/finish",
     client_secret: process.env.KAKAO_SECRET,
     code: req.query.code,
   };
