@@ -15,6 +15,10 @@ import {
   publicOnlyMiddleware,
   avatarUpload,
 } from "../middlewares";
+import {
+  starKakaoLogin,
+  finishKakaoLogin,
+} from "../controllers/kakaoController";
 
 const userRouter = express.Router();
 
@@ -31,6 +35,8 @@ userRouter
   .post(avatarUpload.single("avatar"), postEdit);
 userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
+userRouter.get("/kakao/start", publicOnlyMiddleware, starKakaoLogin);
+userRouter.get("/kakao/finish", publicOnlyMiddleware, finishKakaoLogin);
 userRouter.post("/:id/subscribe", protectorMiddleware, subscribe);
 userRouter.get("/:id", see);
 
