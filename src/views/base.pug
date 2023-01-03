@@ -39,22 +39,15 @@ html(lang='ko')
                     div.side-menu__name--l 구독
                 div.line
                 if loggedIn
-                    div.subscribe
-                        h3 구독 
-                        ul 
-                            each subscribe in loggedInUser.subscribes
-                                li 
-                                    a(href=`/users/${subscribe._id}`)
-                                        img.subscribe__avatar(src=`${subscribe.avatarUrl}`,crossorigin)
-                                        div=subscribe.name
-
-
-
-
-
-
-                
-                            
+                    if loggedInUser.subscribes
+                        div.subscribe
+                            h3 구독 
+                            ul 
+                                each subscribe in loggedInUser.subscribes
+                                    li 
+                                        a(href=`/users/${subscribe._id}`)
+                                            img.subscribe__avatar(src=`${subscribe.avatarUrl}`,crossorigin)
+                                            div=subscribe.name
                     
             main
                 block content
