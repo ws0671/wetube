@@ -4,8 +4,6 @@ import {
   postEdit,
   logout,
   see,
-  startGithubLogin,
-  finishGithubLogin,
   getChangePassword,
   postChangePassword,
   subscribe,
@@ -16,13 +14,13 @@ import {
   avatarUpload,
 } from "../middlewares";
 import {
+  startGithubLogin,
+  finishGithubLogin,
   starKakaoLogin,
   finishKakaoLogin,
-} from "../controllers/kakaoController";
-import {
   startNaverLogin,
   finishNaverLogin,
-} from "../controllers/naverController";
+} from "../controllers/socialLoginController";
 
 const userRouter = express.Router();
 

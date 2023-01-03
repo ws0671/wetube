@@ -6,6 +6,8 @@ import {
   getUpload,
   postUpload,
   deleteVideo,
+  getYoutubeUpload,
+  postYoutubeUpload,
 } from "../controllers/videoController";
 import { protectorMiddleware, videoUpload } from "../middlewares";
 
@@ -25,4 +27,9 @@ videoRouter
   .all(protectorMiddleware)
   .get(getUpload)
   .post(videoUpload.fields([{ name: "video" }, { name: "thumb" }]), postUpload);
+videoRouter
+  .route("/youtube-upload")
+  .all(protectorMiddleware)
+  .get(getYoutubeUpload)
+  .post(postYoutubeUpload);
 export default videoRouter;

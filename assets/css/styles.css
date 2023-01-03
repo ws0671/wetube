@@ -369,6 +369,10 @@ input[type=submit] :disabled,
 #videoContainer video {
   width: 100%;
 }
+#videoContainer iframe {
+  width: 100%;
+  height: 640px;
+}
 #videoContainer .videoControls {
   color: white;
   opacity: 0;
@@ -712,6 +716,12 @@ form label {
   font-size: 14px;
 }
 
+form div {
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -820,9 +830,7 @@ main {
   left: 0;
   right: 0;
   margin: 0 auto;
-  max-width: 200px;
   padding: 10px 20px;
-  border-radius: 10000px;
   text-align: center;
   animation: goAway 0.5s ease-in-out forwards;
   animation-delay: 3s;

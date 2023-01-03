@@ -23,6 +23,7 @@
 @import "./screens/edit-profile.scss";
 @import "./screens/upload.scss";
 @import "./screens/watch.scss";
+@import "./screens/youtube-upload.scss";
 
 // Defaults
 a {
@@ -137,9 +138,9 @@ main {
   left: 0;
   right: 0;
   margin: 0 auto;
-  max-width: 200px;
+  // max-width: 200px;
   padding: 10px 20px;
-  border-radius: 10000px;
+  // border-radius: 10000px;
   text-align: center;
   animation: goAway 0.5s ease-in-out forwards;
   animation-delay: 3s;

@@ -1,6 +1,8 @@
 import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
+import fetch from "node-fetch";
+
 import { async } from "regenerator-runtime";
 
 export const home = async (req, res) => {
@@ -218,4 +220,66 @@ export const deleteComment = async (req, res) => {
   await Comment.findByIdAndDelete(commentId);
 
   return res.sendStatus(200);
+};
+
+// 유튜브로 업로드
+
+export const getYoutubeUpload = (req, res) => {
+  return res.render("youtube-upload", { pageTitle: "Upload YouTube Video" });
+};
+export const postYoutubeUpload = async (req, res) => {
+  // 유저가 입력한 주소로부터 id 구하기
+  const { user: _id } = req.session;
+  const { videoUrl } = req.body;
+  let { title, description, hashtags } = req.body;
+  let id;
+  if (videoUrl.match(/(youtu\.be)/g)) {
+    id = videoUrl.substring(videoUrl.lastIndexOf("/") + 1);
+  } else {
+    const queryString = videoUrl.substring(videoUrl.indexOf("?"));
+    const params = new URLSearchParams(queryString);
+    id = params.get("v");
+  }
+  if (!id) {
+    req.flash("error", "정확한 주소를 입력해주세요.");
+    return res.status(400).redirect("youtube-upload");
+  }
+  const youtubeBaseURL = "https://www.googleapis.com/youtube/v3";
+  const config = {
+    key: process.env.YOUTUBE_API,
+    part: "snippet",
+    id,
+  };
+  const requestParams = new URLSearchParams(config).toString();
+  const URL = `${youtubeBaseURL}/videos?${requestParams}`;
+  const video = await (await fetch(URL)).json();
+
+  // 가져온 정보를 바탕으로 video 생성
+  try {
+    if (!title) {
+      title = video.items[0].snippet.title;
+    }
+    if (!description) {
+      description = video.items[0].snippet.description;
+    }
+    const createdVideo = await Video.create({
+      fileUrl: id,
+      thumbUrl: video.items[0].snippet.thumbnails.high.url,
+      title,
+      description,
+      youtubeVideo: true,
+      owner: _id,
+      hashtags: Video.formatHashtags(hashtags),
+    });
+
+    const user = await User.findById(_id);
+    user.videos.push(createdVideo._id);
+    await user.save();
+    req.session.loggedInUser = user;
+    req.flash("info", "성공적으로 업로드 되었습니다.");
+    return res.status(200).redirect(`${createdVideo._id}`);
+  } catch (error) {
+    req.flash("error", "알 수 없는 오류가 발생했습니다.");
+    return res.status(400).redirect("youtube-upload");
+  }
 };

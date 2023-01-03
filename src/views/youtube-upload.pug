@@ -1,0 +1,18 @@
+extends base
+
+block content 
+    div.upload__container
+        if errorMessage
+            span.error-span=errorMessage
+        form(method="POST")
+            input(placeholder="URL", required, type="text", name="videoUrl")
+            div (필수) 유튜브 동영상의 주소를 입력해주세요.
+            input(placeholder="Title", type="text", name="title", maxlength=80)
+            div (선택) 미입력시 유튜브의 기본값이 저장됩니다.
+            input(placeholder="Description", type="text", name="description", minlength=2)
+            div (선택) 미입력시 유튜브의 기본값이 저장됩니다.
+            input(placeholder="Hashtags, separated by comma.", type="text", name="hashtags")
+            div (선택) 태그를 쉼표(,)로 구분하여 입력해주세요.
+            input(type="submit", value="Upload Video")
+
+    block scripts 

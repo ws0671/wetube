@@ -15,14 +15,14 @@ const logger = morgan("dev");
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header("Cross-Origin-Opener-Policy", "same-origin");
-  res.header("Cross-Origin-Embedder-Policy", "credentialless");
-  res.header("Access-Control-Allow-Headers");
-  res.header("Origin, X-Requested-With,Content-Type, Accept");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.header("Cross-Origin-Opener-Policy", "same-origin");
+//   res.header("Cross-Origin-Embedder-Policy", "credentialless");
+//   res.header("Access-Control-Allow-Headers");
+//   res.header("Origin, X-Requested-With,Content-Type, Accept");
+//   next();
+// });
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
 // fetch를 사용한 서버 통신을 할때 json 데이터를 읽기 위해 필요한 미들웨어.

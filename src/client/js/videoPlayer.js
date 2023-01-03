@@ -3,16 +3,16 @@ import message from "./components/message";
 
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
-const playBtnIcon = playBtn.querySelector("i");
+const playBtnIcon = playBtn?.querySelector("i");
 const muteBtn = document.getElementById("mute");
-const muteBtnIcon = muteBtn.querySelector("i");
+const muteBtnIcon = muteBtn?.querySelector("i");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumn = document.getElementById("volumn");
 const volumeRange = document.getElementById("volume");
 const timeline = document.getElementById("timeline");
 const fullScreenBtn = document.getElementById("fullScreen");
-const fullScreenIcon = fullScreenBtn.querySelector("i");
+const fullScreenIcon = fullScreenBtn?.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
 const deleteBtn = document.querySelector(".delete");
@@ -20,7 +20,7 @@ const deleteModal = document.querySelector(".delete-modal");
 const cancleBtn = document.querySelector(".button--grey");
 const commentInput = document.getElementById("comment-input");
 const middleAnimationSpan = document.querySelector(".middle-animation-icon");
-const middleAnimationIcon = middleAnimationSpan.querySelector("i");
+const middleAnimationIcon = middleAnimationSpan?.querySelector("i");
 const menuIcon = document.querySelector(".menu-icon");
 const menuIconOption = document.querySelector(".menu-icon__option");
 const subscribeBtn = document.querySelector(".subscribe-btn");
@@ -28,7 +28,7 @@ const numberOfSubscribes = document.querySelector(".video__owner-reader");
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
-video.volume = volumeValue;
+if (video) video.volume = volumeValue;
 
 const handlePlayClick = (e) => {
   if (video.paused) {
