@@ -6,11 +6,12 @@
   justify-content: center;
   a {
     margin: 0 15px;
-  }
-  img {
-    border-radius: 15px;
-    width: 38px;
-    height: 38px;
-    object-fit: cover;
+    img {
+      border-radius: 15px;
+      width: 38px;
+      height: 38px;
+      object-fit: cover;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
   }
 }
