@@ -1,6 +1,6 @@
 # Wetube 프로젝트
 
-<img src='위튜브 메인페이지.png'/>
+<img src='wetube main.png'/>
 
 ## 목표
 
