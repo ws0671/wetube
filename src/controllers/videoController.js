@@ -287,22 +287,28 @@ export const postYoutubeUpload = async (req, res) => {
 
 // 구독 페이지
 export const getSubscribe = async (req, res) => {
-  const {
-    user: { _id },
-  } = req.session;
-  const user = await User.findById(_id).populate({
-    path: "subscribes",
-    populate: {
-      path: "videos",
+  if (req.session.loggedIn) {
+    const {
+      user: { _id },
+    } = req.session;
+
+    const user = await User.findById(_id).populate({
+      path: "subscribes",
       populate: {
-        path: "owner",
+        path: "videos",
+        populate: {
+          path: "owner",
+        },
       },
-    },
-  });
-  // console.log(user.subscribes[0].videos);
-  const videos = [];
-  user.subscribes.forEach((i) => videos.push(...i.videos));
-  // 최신순으로 비디오 정렬
-  videos.sort((a, b) => b.createdAt - a.createdAt);
-  return res.render("subscribe", { pageTitle: "Subscribe", videos });
+    });
+    // console.log(user.subscribes[0].videos);
+    const videos = [];
+    user.subscribes.forEach((i) => videos.push(...i.videos));
+    // 최신순으로 비디오 정렬
+    videos.sort((a, b) => b.createdAt - a.createdAt);
+    return res.render("subscribe", { pageTitle: "Subscribe", videos });
+  } else {
+    const videos = [];
+    return res.render("subscribe", { pageTitle: "Subscribe", videos });
+  }
 };
