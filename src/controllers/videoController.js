@@ -229,7 +229,9 @@ export const getYoutubeUpload = (req, res) => {
 };
 export const postYoutubeUpload = async (req, res) => {
   // 유저가 입력한 주소로부터 id 구하기
-  const { user: _id } = req.session;
+  const {
+    user: { _id },
+  } = req.session;
   const { videoUrl } = req.body;
   let { title, description, hashtags } = req.body;
   let id;
@@ -253,7 +255,6 @@ export const postYoutubeUpload = async (req, res) => {
   const requestParams = new URLSearchParams(config).toString();
   const URL = `${youtubeBaseURL}/videos?${requestParams}`;
   const video = await (await fetch(URL)).json();
-
   // 가져온 정보를 바탕으로 video 생성
   try {
     if (!title) {
@@ -282,4 +283,26 @@ export const postYoutubeUpload = async (req, res) => {
     req.flash("error", "알 수 없는 오류가 발생했습니다.");
     return res.status(400).redirect("youtube-upload");
   }
+};
+
+// 구독 페이지
+export const getSubscribe = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
+  const user = await User.findById(_id).populate({
+    path: "subscribes",
+    populate: {
+      path: "videos",
+      populate: {
+        path: "owner",
+      },
+    },
+  });
+  // console.log(user.subscribes[0].videos);
+  const videos = [];
+  user.subscribes.forEach((i) => videos.push(...i.videos));
+  // 최신순으로 비디오 정렬
+  videos.sort((a, b) => b.createdAt - a.createdAt);
+  return res.render("subscribe", { pageTitle: "Subscribe", videos });
 };

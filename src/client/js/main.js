@@ -51,6 +51,7 @@ relativeTimeFn();
 const sideMenuMini = document.querySelector(".side-menu--mini");
 const sideMenu = document.querySelector(".side-menu");
 const burgerIcon = document.querySelector(".header__bars");
+
 let toggle = "normal";
 
 if (localStorage.getItem("normal") === "false") {

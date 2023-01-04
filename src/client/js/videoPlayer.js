@@ -219,21 +219,21 @@ const handleSubscribe = async (e) => {
   }
 };
 
-playBtn.addEventListener("click", handlePlayClick);
-muteBtn.addEventListener("click", handleMuteClick);
-volumeRange.addEventListener("input", handleVolumeChange);
-video.readyState
+playBtn?.addEventListener("click", handlePlayClick);
+muteBtn?.addEventListener("click", handleMuteClick);
+volumeRange?.addEventListener("input", handleVolumeChange);
+video?.readyState
   ? handleLoadedMetadata()
-  : video.addEventListener("loadedmetadata", handleLoadedMetadata);
-video.addEventListener("timeupdate", handleTimeUpdate);
+  : video?.addEventListener("loadedmetadata", handleLoadedMetadata);
+video?.addEventListener("timeupdate", handleTimeUpdate);
 // ended 이벤트는 HtmlMediaElement의 이벤트로써 여기서는 video가 재생완료 된 시점에 발생한다.
-video.addEventListener("ended", handleEnded);
-timeline.addEventListener("input", handleTimelineChange);
-fullScreenBtn.addEventListener("click", handleFullscreen);
-videoContainer.addEventListener("mousemove", handleMouseMove);
-videoContainer.addEventListener("mouseleave", handleMouseLeave);
+video?.addEventListener("ended", handleEnded);
+timeline?.addEventListener("input", handleTimelineChange);
+fullScreenBtn?.addEventListener("click", handleFullscreen);
+videoContainer?.addEventListener("mousemove", handleMouseMove);
+videoContainer?.addEventListener("mouseleave", handleMouseLeave);
 window.addEventListener("keydown", handleKey);
-video.addEventListener("click", handleVideoClick);
+video?.addEventListener("click", handleVideoClick);
 menuIcon?.addEventListener("click", () => {
   menuIconOption.classList.toggle("hide");
 });
