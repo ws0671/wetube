@@ -2,6 +2,9 @@
 
 <img src='wetube main.png'/>
 
+## 사이트 주소
+https://wetube-ws0671.koyeb.app/
+
 ## 목표
 
 youtube를 모티브로 구현한 사이트.
