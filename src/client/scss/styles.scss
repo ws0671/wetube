@@ -38,6 +38,10 @@ body {
   background-color: $bg;
   color: black;
 }
+// 모든 이미지 적용
+img {
+  object-fit: cover;
+}
 
 .main-container {
   display: flex;
