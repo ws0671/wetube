@@ -733,6 +733,10 @@ body {
   color: black;
 }
 
+img {
+  object-fit: cover;
+}
+
 .main-container {
   display: flex;
 }

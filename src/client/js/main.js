@@ -51,6 +51,8 @@ relativeTimeFn();
 const sideMenuMini = document.querySelector(".side-menu--mini");
 const sideMenu = document.querySelector(".side-menu");
 const burgerIcon = document.querySelector(".header__bars");
+const sideMenuItem = document.querySelectorAll(".side-menu-item");
+const sideMenuItemL = document.querySelectorAll(".side-menu-item--l");
 
 let toggle = "normal";
 

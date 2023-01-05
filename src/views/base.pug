@@ -46,7 +46,7 @@ html(lang='ko')
                                 each subscribe in loggedInUser.subscribes
                                     li 
                                         a(href=`/users/${subscribe._id}`)
-                                            img.subscribe__avatar(src=`${subscribe.avatarUrl}`,crossorigin)
+                                            img.subscribe__avatar(src=`${subscribe.avatarUrl}`)
                                             div=subscribe.name
                     
             main
