@@ -10,10 +10,11 @@ https://wetube-ws0671.koyeb.app/
 youtube를 모티브로 구현한 사이트.
 
 ## 사용기술
-- html,css
+- html,css,pug
 - javascript
 - express
 - nodeJS
+- mongoDB
 
 ## 구현한 것들
 
