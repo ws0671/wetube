@@ -62,6 +62,7 @@ export const publicOnlyMiddleware = (req, res, next) => {
 
 export const avatarUpload = multer({
   dest: "uploads/avatar/",
+  // 3MB
   limits: {
     fileSize: 3000000,
   },
@@ -69,6 +70,26 @@ export const avatarUpload = multer({
 });
 export const videoUpload = multer({
   dest: "uploads/video/",
-  limits: { fileSize: 20000000 },
+  // 10MB
+  limits: { fileSize: 10000000 },
   storage: isHeroku ? s3VideoUploader : undefined,
 });
+// s3 자동 삭제 참고 코드
+// export const s3DeleteAvatarMiddleware = (req, res, next) => {
+//   if (!req.file) {
+//     return next();
+//   }
+//   s3.deleteObject(
+//     {
+//       Bucket: `clonetubetest`,
+//       Key: `images/${req.session.user.avatarURL.split("/")[4]}`,
+//     },
+//     (err, data) => {
+//       if (err) {
+//         throw err;
+//       }
+//       console.log(`s3 deleteObject`, data);
+//     }
+//   );
+//   next();
+// };
