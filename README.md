@@ -10,10 +10,12 @@ https://wetube-ws0671.koyeb.app/
 youtube를 모티브로 구현한 사이트.
 
 ## 사용기술
-- html,css
+- html,css,pug
 - javascript
 - express
 - nodeJS
+- mongoDB
+- aws s3
 
 ## 구현한 것들
 
@@ -46,3 +48,4 @@ youtube를 모티브로 구현한 사이트.
 - 구글 로그인
 - 메뉴 클릭 부드럽지 않은 부분 수정 및 클릭하면 색깔 바뀌게 하기
 - 반응형, 모바일 화면 대응
+- 동영상 삭제 및 프로필 변경시 aws s3에서 자동 삭제하기 
