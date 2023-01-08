@@ -7,8 +7,6 @@ module.exports = {
     videoPlayer: BASE_JS + "videoPlayer.js",
     recorder: BASE_JS + "recorder.js",
     commentSection: BASE_JS + "commentSection.js",
-    home: BASE_JS + "home.js",
-    subscribe: BASE_JS + "subscribe.js",
   },
   output: {
     filename: "js/[name].js",
